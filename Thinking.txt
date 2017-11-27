@@ -1,7 +1,7 @@
 11/2/2017
 London:
 This is a document to document our thinking process as we go.
-New posts should be added to the top
+New posts should be added to the bottom
 
 I find that having something like this can be extremely useful later on when writing documentation or trying to determine why we did what we did.
 
@@ -72,6 +72,7 @@ An issue with this one is that it has too much of a difference between a small c
 
 
 11/26/2017
+London
 Okay, I think I've clarified my thinking with what I said to Will on the phone.
 The issue is this: We can just provide rewards for the end states, and tell the computer whether or not those are good.
 But, as soon as we get to larger state trees, it becomes nearly impossible to tell whether or not a state is good based on those end states,
