@@ -1,0 +1,124 @@
+11/2/2017
+London:
+This is a document to document our thinking process as we go.
+New posts should be added to the top
+
+I find that having something like this can be extremely useful later on when writing documentation or trying to determine why we did what we did.
+
+We're making a game-player/game-solver that learns to play games.
+I've limited the games as follows:
+2 player games (not necessarily alternating-turn)
+game state completely visible to both players (Markov Property)
+
+It is loosely based on a program I made in high school that learned how to play tic-tac-toe (and the hand-game chopsticks).
+This version should improve on previous versions by not relying solely on random game trials, but also solving particular situations of a game.
+
+A situation is considered solved when we have a policy that provably matches each game state (which includes the active player) to a transition
+that will lead to the most favorable outcome for the active player regardless of how the other player plays.
+
+The methods used in the original high school version were learned from
+Sutton's online textbook (http://incompleteideas.net/sutton/book/ebook/the-book.html)
+and used neural networks which were learned from 
+http://neuralnetworksanddeeplearning.com/index.html and
+Andrew Ng's Coursera Machine Learning Course.
+
+This college version hopes to expand on those ideas, potentially correctly implementing neural networks to properly generalize over games,
+using the minimax algorithm to solve portions of games, and solving games faster and with better performance than the previous high school version.
+
+Okay, time to think more practically.
+
+I think that minimax just determines which moves are the best. But, in Tic-Tac-Toe, I argue that with best play on both sides, starting in the middle is just as good as starting in the corners, starting in a corner is better because it gives you a better ratio of win to tie situations.
+
+Ultimately, what I'd like to have is a version of minimax that can be run with probability conditions of the opponent making a given move in any situation.
+Then, we can do some stats and determine, given these probabilities, what the best move would be against that opponent.
+When we assume a perfect player, we can just assume that each of the best possible moves (what minimax would say is the best move) will occur with equal probability, and then choose the best response based on that.
+
+Also, there's some way in which we favor ties over losses, and wins over ties, and I'd like to continue to have a measurement of how much each of those is favored when evaluating the game.
+
+To give some background, in my high school version, you specify a reward given to the AI for each outcome as a list that looks like
+[reward for losing, reward for tie, reward for winning], where reward from losing was generally negative, tie was slightly positive, and a win was generally the opposite of the loss reward.
+For example, a reward I used was [-10, 2, 10]. Another I used was [0, .2, 1]. Then I'd train a whole bunch of different players and see which reward pattern worked the best.
+
+So, with regards to why that's even more important to have something like that in this version,
+it may be that there is a situation in which there is one move that can lead to a loss against a perfect player, but also has a lot of options for winning,
+and another move which will lead to a tie against a perfect player but we can never win.
+
+If the win:tie:loss ratio for that first move outweighs how much we don't want to lose given the reward weightings, the AI should make a move that could cause it to lose, but has a higher probability of it winning.
+
+One issue with the current way of specifying the reward is that there's no way to specify "don't lose at all costs".
+
+Actually, maybe there is.
+
+It looks like here I'm just evaluating the expected reward probability of a move, which is
+(chance of loss)*(reward for loss) + (chance of tie)*(reward for tie) + (chance of win)*(reward for win)
+
+Is there any way to make the rewards such that any chance of loss causes the value of that function to be lower than any values without a chance of loss?
+Note that (chance of loss)+(chance of tie)+(chance of win) = 1, but the same is not true for the rewards; they can be whatever.
+Also, (chance of loss), (chance of tie), and (chance of win) are all non-negative.
+In other words, I want (epsilon) * x + a to be less than all possible values of a. Solve for x.
+It seems like there's a solution if x is negative infinity and a is restricted to below some positive number c.
+No, because even then, there's no guarantee that abs((eplison) * -inf) > c
+In other words, I don't think a list will suffice anymore for what I want to do.
+We need some value function, and I'm not sure if it can be as simple as the earlier "expected reward probability".
+In fact, I'm certain it can't be that simple.
+
+One possible function like this could look like:
+if chance of loss > 0: return sigmoid(expectedProbability) - 1
+else: return sigmoid(expectedProbability)
+
+where sigmoid is defined as f(x) = 1 / (1 + e^(-x))
+
+An issue with this one is that it has too much of a difference between a small chance of winning and a small chance of losing; it's not smooth.
+
+
+11/26/2017
+Okay, I think I've clarified my thinking with what I said to Will on the phone.
+The issue is this: We can just provide rewards for the end states, and tell the computer whether or not those are good.
+But, as soon as we get to larger state trees, it becomes nearly impossible to tell whether or not a state is good based on those end states,
+...because it takes a long time to get any estimate about the goodness of a state since you have to travel down so many different paths, each of which takes time.
+So in order to judge intermediate states, its evaluation function has to be based on end states, which makes the evaluation function too slow or too inaccurate to be practically useful.
+
+We can build other evaluation functions though, which rely on particular properties of the game, such as the position of pieces and the types of pieces, etc.
+We can then have the computer learn how important each one of these properties is as a function of the end states, which may take just as long, but prove to be more accurate.
+That is something we can use a neural network for.
+
+In other words, unless we've solved the game, each state needs to have an evaluation function.
+The question is, what is that evaluation function based on?
+
+What is it about the position of pieces in chess that makes you more likely or less likely to win a game?
+Are all of our understandings about the game actually based on the end state?
+In other words, do the pieces not really matter; it just so happens that when you have more pieces, there are more/better ways to win in most situations?
+
+It's interesting, because the winning criteria for us humans is defined in terms of the pieces and their movement.
+For chess, it's defined as "the king is in check, the king can't move out of check, and none of the king's pieces and move to get the king out of check"
+where "check" is defined as a piece being able to move in the next turn such that it could capture the king.
+
+Whereas, the way we're describing it to the computer, we're giving it the knowledge that "these are all the end states to a game of chess",
+...but not giving it the understanding of why those are the particular end states.
+
+It seems like something you may be able to do with a kid in tic-tac-toe, where you say "here are all the positions that make you win"
+However, it's much more succinct to say something like "Whenever you get three of your shape in a row, you win"
+
+I think that when humans do this, they assume the existence of objects and properties that those objects have, and that all games are dependent on the properties of these objects we define.
+Are they also dependent on actions?
+
+Either way, in this case, we do have an easy way to give the computer properties it can look at.
+We define a game as a bunch of objects (I'm not exactly sure how rules work yet) and define each property as numbers in some way.
+Then, the computer can use a neural net, (or any other method) to generate an evaluation function off of those properties.
+
+For example, in chess, each piece is an object, it has a type, it has a place on the board (or it's not on the board), and the game can be described in terms of those properties
+The issue with this is that those properties also have properties. For example, if one property of a piece is the places it can move on the board,
+...then how many places it can move on the board is determined by the length of that list.
+(And that's assuming that the places it can move are somehow computed/enumerated in that property, rather than only being defined as the type of the piece.)
+
+After thinking about it more, I realized that other properties like "where the piece can move" is a result of merely other properties we've already defined, such as the type of the piece and where it is on the board.
+
+So, the way I'm going to program this is to have each state have both a list of properties which are just numbers, and the list must have the same amount of numbers each time or else be None
+...and then also have a player who won result and a hash.
+
+Then, if we want to use neural networks or other evaluation functions later, we can, but we can also just base it off of the winning result, and also compute states quickly with a hash.
+
+
+
+
+
