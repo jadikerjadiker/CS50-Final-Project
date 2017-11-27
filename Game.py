@@ -1,11 +1,7 @@
-#from abc import abstractmethod # TODO not sure if needed
-
-class State:
-    def __init__(self, hash, whoWon, properties):
-        self.hash = hash
-        self.whoWon = whoWon
-        self.properties = properties
-        
+'''
+By London Lowmanstone
+Class for games
+'''
 class Game():
     @classmethod
     def other_player(cls, player):

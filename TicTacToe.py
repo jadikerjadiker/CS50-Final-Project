@@ -1,3 +1,8 @@
+'''
+By London Lowmanstone
+Class for the game Tic-tac-toe
+'''
+
 from Game import Game
 
 class TicTacToe(Game):
