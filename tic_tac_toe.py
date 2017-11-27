@@ -3,25 +3,37 @@ By London Lowmanstone
 Class for the game Tic-tac-toe
 '''
 
-from Game import Game
+from game import Game
 
 class TicTacToe(Game):
     '''
     TODO documentation
     '''
     def get_initial_state(self):
-        # return an empty board and player #0
-        return ([-1] * 9, 0)
+        # return an empty board
+        return [-1] * 9
     
     def get_properties(self):
-        return self.state
+        return self.state[:]
+        ''' TODO only if we need to switch players
+        if self.active_player == 0:
+            return self.state[:]
+        else:
+            ans = self.get_copy()
+            ans.swap_players()
+            return ans.state
+        '''
+            
+    def swap_players(self):
+        self.state = [Game.other_player(val) if val >= 0 else -1 for val in self.state ]
+        self.active_player = Game.other_player(self.active_player)
     
     def get_copy(self):
         return TicTacToe((self.state[:], self.active_player))
     
     def get_hash(self):
         string_list = ["O", "X", " "]
-        ans = ["O", "X"][self.active_player]
+        ans = string_list[self.active_player]
         for val in self.state:
             ans += string_list[val]
         return ans
@@ -90,7 +102,7 @@ class TicTacToe(Game):
                             # if the player does have a win
                             return player
         return ans
-        
+       
     def __str__(self):
         ans = self.get_hash().replace(" ", "-")
         return "{}'s turn:\n{}\n{}\n{}".format(ans[:1], ans[1:4], ans[4:7], ans[7:10])
@@ -105,4 +117,6 @@ if __name__ == "__main__":
     print(t.state)
     print("'"+t.get_hash()+"'")
     print(t.who_won())
+    print(t)
+    t.swap_players()
     print(t)

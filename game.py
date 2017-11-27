@@ -2,18 +2,28 @@
 By London Lowmanstone
 Class for games
 '''
+import random
+
 class Game():
     @classmethod
     def other_player(cls, player):
         '''Returns the number of the other player (either a 0 or 1)'''
         return (player + 1) % 2
         
+    @classmethod
+    def get_random_game(cls):
+        game = cls()
+        while game.who_won() is None:
+            game.make_move(random.choice(game.get_possible_actions()))
+        return game
+        
     '''
     TODO documentation
     '''
     def __init__(self, state_and_player=None):
         if state_and_player is None:
-            self.state, self.active_player = self.get_initial_state()
+            self.state = self.get_initial_state()
+            self.active_player = 0
         else:
             self.state, self.active_player = state_and_player
     
@@ -59,9 +69,19 @@ class Game():
         raise NotImplementedError
     
     def get_properties(self):
-        '''This returns a list of numbers of constant length describing the state and active player of the game, or None
+        '''This returns a mutable list of numbers of constant length describing the state, or None
         This is what we'd feed into a neural net to learn about the game
+        
+        For example, if the game really was player 1's turn to move, it would swap all the pieces and then return the same values
+        ...as if player 0 had made all the moves that player 1 did and vice versa
+        
+        TODO this will need to be defined better if/when we actually start using neural networks
+        TODO determine if this can be mutable
         '''
+        raise NotImplementedError
+        
+    def swap_players(self):
+        '''Swap the players in a game. Does not return any value.'''
         raise NotImplementedError
         
     def get_copy(self):
@@ -79,7 +99,9 @@ class Game():
         raise NotImplementedError
         
     def make_move(self, action):
-        '''Change the state of the game and update the active player based on the action'''
+        '''Change the state of the game and update the active player based on the action
+        Assumes the action is valid. Behavior is undefined if action is not valid.
+        '''
         raise NotImplementedError
         
     def who_won(self):
