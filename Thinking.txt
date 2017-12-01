@@ -121,5 +121,14 @@ Then, if we want to use neural networks or other evaluation functions later, we 
 
 
 
+11/29/2017
 
+installing treedict was frustrating
+Apparently getting your versioning numbers wrong is a thing:
+https://github.com/hoytak/treedict/issues/12
+(lol)
 
+And so you have to manually install the correct version with:
+sudo pip3 install 'treedict==0.2.2'
+
+Well, now we know.

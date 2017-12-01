@@ -13,6 +13,13 @@ class TicTacToe(Game):
         # return an empty board
         return [-1] * 9
     
+    def get_state_hash(self):
+        string_list = ["O", "X", " "]
+        ans = ""
+        for val in self.state:
+            ans += string_list[val]
+        return ans
+    
     def get_properties(self):
         return self.state[:]
         ''' TODO only if we need to switch players
@@ -25,25 +32,17 @@ class TicTacToe(Game):
         '''
             
     def swap_players(self):
-        self.state = [Game.other_player(val) if val >= 0 else -1 for val in self.state ]
-        self.active_player = Game.other_player(self.active_player)
+        self.state = [Game.get_other_player(val) if val >= 0 else -1 for val in self.state ]
     
     def get_copy(self):
         return TicTacToe((self.state[:], self.active_player))
     
-    def get_hash(self):
-        string_list = ["O", "X", " "]
-        ans = string_list[self.active_player]
-        for val in self.state:
-            ans += string_list[val]
-        return ans
-    
-    def get_possible_actions(self):
+    def get_possible_moves(self):
         return [i for i in range(len(self.state)) if self.state[i] == -1]
         
     def make_move(self, action):
         self.state[action] = self.active_player
-        self.active_player = Game.other_player(self.active_player)
+        self.active_player = Game.get_other_player(self.active_player)
         
     def who_won(self):
         '''returns 0 if player 0 won, 1 if player 1 won, -1 if it's a tie and None if it's unfinished'''
@@ -104,8 +103,12 @@ class TicTacToe(Game):
         return ans
        
     def __str__(self):
-        ans = self.get_hash().replace(" ", "-")
-        return "{}'s turn:\n{}\n{}\n{}".format(ans[:1], ans[1:4], ans[4:7], ans[7:10])
+        if self.active_player == 0:
+            this = self
+        else:
+            this = self.get_swapped_copy()
+        ans = this.get_hash().replace(" ", "-")
+        return "{}'s turn:\n{}\n{}\n{}".format(["O", "X"][self.active_player], ans[0:3], ans[3:6], ans[6:9])
         
 if __name__ == "__main__":
     import random
@@ -113,7 +116,7 @@ if __name__ == "__main__":
     while t.who_won() is None:
         print(t.state)
         print("'"+t.get_hash()+"'")
-        t.make_move(random.choice(t.get_possible_actions()))
+        t.make_move(random.choice(t.get_possible_moves()))
     print(t.state)
     print("'"+t.get_hash()+"'")
     print(t.who_won())

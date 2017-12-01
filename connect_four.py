@@ -7,6 +7,15 @@ class ConnectFour(Game):
         # return an empty board
         return [[-1] * 7 for _ in range(6)]
     
+    def get_state_hash(self):
+        '''Return a unique string for the state and active player'''
+        string_list = ["O", "X", " "]
+        ans = ""
+        for row in self.state:
+            for val in row:
+                ans += string_list[val]
+        return ans
+    
     def get_properties(self):
         '''This returns a list of numbers of constant length describing the state, or None
         This is what we'd feed into a neural net to learn about the game
@@ -19,23 +28,14 @@ class ConnectFour(Game):
         return [val for val in row for row in self.get_copy().state]
         
     def swap_players(self):
-        '''Swap the players in a game. Does not return any value.'''
-        self.state = [[Game.other_player(val) if val >=0 else -1 for val in row] for row in self.state]
+        '''Swap the players in a game.'''
+        self.state = [[Game.get_other_player(val) if val >=0 else -1 for val in row] for row in self.state]
         
     def get_copy(self):
         '''Return a copy of the object'''
         return ConnectFour(([row[:] for row in self.state], self.active_player))
     
-    def get_hash(self):
-        '''Return a unique string for the state and active player'''
-        string_list = ["O", "X", " "]
-        ans = string_list[self.active_player]
-        for row in self.state:
-            for val in row:
-                ans += string_list[val]
-        return ans
-    
-    def get_possible_actions(self):
+    def get_possible_moves(self):
         '''Return a list of the possible actions that can be taken by self.active_player in the self.state state
         Behavior is undefined when the game is complete
         '''
@@ -51,7 +51,7 @@ class ConnectFour(Game):
                 row[action] = self.active_player
                 break
         
-        self.active_player = Game.other_player(self.active_player)
+        self.active_player = Game.get_other_player(self.active_player)
         
     def who_won(self):
         '''Return 0 if player 0 won, 1 if player 1 won, -1 if there was a tie, and None if the game has not finished'''
@@ -65,7 +65,7 @@ class ConnectFour(Game):
         
         # the player we're checking to see if they won
         cur_player = None
-        # upgrade: duplicate code here
+        # upgrade: there's duplicate code here
         # check rows (left to right)
         for row_index in range(rows):
             for start_col_index in range(columns - match_amount + 1):
@@ -145,12 +145,17 @@ class ConnectFour(Game):
         return ans
         
     def __str__(self):
-        return "Player {}'s turn:\n{}".format(self.active_player, "\n".join([str(row).replace("-1", "-") for row in reversed(c.state)]))
+        return "Player {}'s turn:\n{}".format(self.active_player, "\n".join([str(row).replace("-1", "-") for row in reversed(self.state)]))
                             
 if __name__ == "__main__":
+    from players import RandomPlayer
     print("Getting random game!")
-    c = ConnectFour.get_random_game()
+    c = RandomPlayer.get_random_game(ConnectFour)
     print(c)
     print(c.who_won())
+    c.swap_players()
+    print(c)
+    
+    
     # haha this takes forever. 64! is under a googol, but not by too much, so that's expected
     print(ConnectFour().get_complexity(-1)) 

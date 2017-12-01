@@ -6,17 +6,10 @@ import random
 
 class Game():
     @classmethod
-    def other_player(cls, player):
+    def get_other_player(cls, player):
         '''Returns the number of the other player (either a 0 or 1)'''
         return (player + 1) % 2
-        
-    @classmethod
-    def get_random_game(cls):
-        game = cls()
-        while game.who_won() is None:
-            game.make_move(random.choice(game.get_possible_actions()))
-        return game
-        
+    
     '''
     TODO documentation
     '''
@@ -27,10 +20,17 @@ class Game():
         else:
             self.state, self.active_player = state_and_player
     
+    def get_hash(self):
+        '''Return a unique string for the state as if player 0 was making the next move'''
+        if self.active_player == 1:
+            return self.get_swapped_copy().get_state_hash()
+        else:
+            return self.get_state_hash()
+    
     def get_next_level(self):
         '''Return a list of all the games that can be reached with one action from the current game'''
         ans = []
-        actions = self.get_continue_actions()
+        actions = self.get_continue_moves()
         for action in actions:
             copy = self.get_copy()
             copy.make_move(action)
@@ -56,16 +56,25 @@ class Game():
         else:
             return 0
     
-    def get_continue_actions(self):
-        '''Like get_possible_actions, except it only gets the actions if the game is not complete
-        Removes the undefined behavior allowed in get_possible_actions
+    def get_continue_moves(self):
+        '''Like get_possible_moves, except it only gets the actions if the game is not complete
+        Removes the undefined behavior allowed in get_possible_moves
         '''
         if self.who_won() is None:
-            return self.get_possible_actions()
+            return self.get_possible_moves()
         else:
             return []
     
+    def get_swapped_copy(self):
+        ans = self.get_copy()
+        ans.swap_players()
+        return ans
+    
     def get_initial_state(self):
+        raise NotImplementedError
+    
+    def get_state_hash(self):
+        '''Return a unique string for the state'''
         raise NotImplementedError
     
     def get_properties(self):
@@ -81,18 +90,14 @@ class Game():
         raise NotImplementedError
         
     def swap_players(self):
-        '''Swap the players in a game. Does not return any value.'''
+        '''Swap the players in a game. Returns nothing.'''
         raise NotImplementedError
         
     def get_copy(self):
         '''Return a copy of the object'''
         raise NotImplementedError
     
-    def get_hash(self):
-        '''Return a unique string for the state and active player'''
-        raise NotImplementedError
-    
-    def get_possible_actions(self):
+    def get_possible_moves(self):
         '''Return a list of the possible actions that can be taken by self.active_player in the self.state state
         Behavior is undefined when the game is complete
         '''
@@ -110,6 +115,8 @@ class Game():
         
 
 if __name__ == "__main__":
-    from TicTacToe import TicTacToe
+    from tic_tac_toe import TicTacToe
     print("Working...")
-    print("Number of end states in TicTacToe: {}".format(TicTacToe().get_complexity(-1)))
+    #print("Number of end states in TicTacToe: {}".format(TicTacToe().get_complexity(-1)))
+    from connect_four import ConnectFour
+    print(ConnectFour.get_random_game())
