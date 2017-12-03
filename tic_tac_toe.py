@@ -46,9 +46,12 @@ class TicTacToe(Game):
         
     def who_won(self):
         '''returns 0 if player 0 won, 1 if player 1 won, -1 if it's a tie and None if it's unfinished'''
-        if -1 in self.state: #game is not done, default to unfinished
+        '''TODO fix inline comments'''
+        if -1 in self.state:
+            # game is not done, default to unfinished
             ans = None
-        else: #game is done, default to tie
+        else:
+            # game is done, default to tie
             ans = -1
             
         # the current player number we're checking to see if they won
@@ -63,25 +66,30 @@ class TicTacToe(Game):
         for checking in range(4):
             # the number of the symbol in the series we're looking for
             for i in range(3):
-                if checking < 2: #checking rows and columns
+                if checking < 2:
+                    #checking rows and columns
                     for j in range(3):
-                        if checking == 0: #checking rows
+                        if checking == 0:
+                            # checking rows
                             # iterate through the row
                             val = self.state[i * 3 + j]
-                        else: #checking columns
+                        else:
+                            # checking columns
                             # iterate through the column
                             val = self.state[i + j * 3]
                         
                         if val == -1: # person doesn't have the entire row or column
                             break
                         else:
-                            if j == 0: #if it just started checking this line
+                            # if it just started checking this line
+                            if j == 0: 
                                 # whoever has the first space must have the other two to win
                                 player = val
-                            elif not val == player: #if the player doesn't have a win
+                            # if the player doesn't have a win
+                            elif not val == player:
                                 break
+                            # if the player does have a win
                             elif j==2:
-                                # if the player does have a win
                                 return player
                 else: #checking diagonals
                     if checking==2:

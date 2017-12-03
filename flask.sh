@@ -1,0 +1,1 @@
+FLASK_APP=FrontEnd/new_connection.py TEMPLATES_AUTO_RELOAD=true flask run

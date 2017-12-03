@@ -1,7 +1,7 @@
 import random
 
 class Player:
-    def make_move(game):
+    def make_move(self, game):
         '''Make a move in the game (a Game object)'''
         raise NotImplementedError
         
@@ -23,7 +23,28 @@ class RandomPlayer(Player):
         
     def __str__(self):
         return "<RandomPlayer object>"
+
+
+class HumanPlayer(Player):
+    def make_move(self, game):
+        moves = game.get_possible_moves()
+        print(game)
+        while True:
+            try:
+                if False not in [isinstance(move, int) for move in moves]:
+                    print("Moves:\n{}".format([move + 1 for move in moves]))
+                    move = int(input("Type the move you'd like to do: ")) - 1
+                else:
+                    moves_dict = {}
+                    for i, move in enumerate(moves):
+                        moves_dict[i] = move
+                    print("Moves:\n{}".format(moves_dict))
+                    index = int(input("Type the index of the move you'd like to do: "))
+                    move = moves_dict[index]
+                break
+            except Exception:
+                print("Sorry, that didn't work.")
+                
         
-        
-class BasicMonteCarloPlayer(Player):
+        game.make_move(move)
     

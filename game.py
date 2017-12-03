@@ -69,6 +69,17 @@ class Game():
         ans = self.get_copy()
         ans.swap_players()
         return ans
+        
+    def get_moved_copy(self, move):
+        ans = self.get_copy()
+        ans.make_move(move)
+        return ans
+        
+    def get_active_zero_copy(self):
+        if self.active_player == 0:
+            return self.get_copy()
+        else:
+            return self.get_swapped_copy()
     
     def get_initial_state(self):
         raise NotImplementedError
