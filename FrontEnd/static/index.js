@@ -90,7 +90,7 @@ document.addEventListener('click',  function (e) {
     alert("TIC-TAC-TOE");
   }
   else if(isInside(getXY(canvas,e),Connect4Button)) {
-      jsonify();
+      //jsonify();
       alert("CONNECT4");
   }
   else if (isInside(getXY(canvas,e),CheckersButton)) {

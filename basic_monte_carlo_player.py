@@ -1,19 +1,19 @@
 from players import Player, RandomPlayer
-from monte_carlo import monte_carlo_eval
+from monte_carlo_evaluation import monte_carlo_eval
 
 class BasicMonteCarloPlayer(Player):
-    def __init__(self, simulation_amount, depth=0, rewards=[1, -1, .5]):
+    def __init__(self, simulation_amount, depth=0, rewards=(1, -1, .5)):
         self.simulation_amount = simulation_amount
         self.depth = depth
         # different rewards depending on which player number the player is in the game
-        self.rewards = (rewards, [rewards[1], rewards[0], rewards[2]])
+        self.rewards = rewards
     
     def make_move(self, game):
-        # Assumes it is making a move on its own turn
-        # In order for MonteCarlo evaluation 
-        # upgrade: another way of doing this would be to do the sorting in reverse, thought that runs into slight issues with the rewards being reversed; oh wait! that might work!
+        # TODO delete
+        from useful_functions import p_r
         
-        rewards = self.rewards[game.active_player]
+        # Assumes it is making a move on its own turn
+
         poss_moves = game.get_possible_moves()
         test_games = []
         for move in poss_moves:
@@ -23,10 +23,12 @@ class BasicMonteCarloPlayer(Player):
             
         
         # from https://stackoverflow.com/questions/6618515/sorting-list-based-on-values-from-another-list
-        # TODO this looks like a mess, but it works
-        # Sort the moves based on a Monte Carlo evaluation that flips the reward in case we're not player 0
-        game.make_move([move for _, move in sorted(zip([monte_carlo_eval(test_game, rewards=rewards, simulation_amount=self.simulation_amount, depth=self.depth).value
-                                                        for test_game in test_games], poss_moves))][-1])
+        # Sort the moves based on a Monte Carlo evaluation
+        scores = [monte_carlo_eval(test_game, player_number=game.active_player, rewards=self.rewards,
+                                   simulation_amount=self.simulation_amount, depth=self.depth).value 
+                  for test_game in test_games]
+                  
+        game.make_move(max(zip(scores, poss_moves))[1])
   
 if __name__ == "__main__":
     from tic_tac_toe import TicTacToe

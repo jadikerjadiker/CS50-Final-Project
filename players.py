@@ -44,7 +44,6 @@ class HumanPlayer(Player):
                 break
             except Exception:
                 print("Sorry, that didn't work.")
-                
         
         game.make_move(move)
     

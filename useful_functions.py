@@ -1,5 +1,11 @@
 # by London Lowmanstone (from high school)
 
+# basic debugging tool
+# TODO delete
+def p_r(thing):
+    print(thing)
+    return thing
+
 def print_percent(index_number, out_of, increment_amt = 1, round_amt = 0):
     '''If you're running a for loop like
     'for i in range(max_val)'

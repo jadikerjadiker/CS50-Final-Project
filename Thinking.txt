@@ -132,3 +132,23 @@ And so you have to manually install the correct version with:
 sudo pip3 install 'treedict==0.2.2'
 
 Well, now we know.
+
+
+12/4/2017
+So why am I storing the hash with the active player as player 0? What's the point?
+
+The point is that the game position is essentially the same. The move in that hashed position will be exactly the same as the move in the unhashed position.
+Swapping the players does not change which move is the best.
+Note that when I say swap, I mean that all of player 0's moves are player 1's move and vice versa
+
+Let's say I'm player 1. Won't it still tell me the best move to make in that situation?
+Yes, it will.
+
+So, then, that should work.
+
+The only thing that's weird is that I won't know for which player it's good for by the time it puts it in.
+But we know from beforehand that it will always evaluate from the correct player's perspective.
+The switch in players only happens when we're hashing the game.
+
+So how then, once we get the dictionary back, are we to know which ones are on the surface level and which ones are not?
+Let's just also put in the depth

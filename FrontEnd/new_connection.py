@@ -10,10 +10,16 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
 @app.route('/')
-def hello():
+def homepage():
     counter = 0 
-    return render_template("tictactoe.html",counter=counter)
+    return render_template("index.html",counter=counter)
+
+@app.route('/tictactoe')
+def tictactoe():
+    return render_template("tictactoe.html")
+    
 
 
 # even though this part does grab all the files now, it doesn't seem to be working

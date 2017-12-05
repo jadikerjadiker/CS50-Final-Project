@@ -1,163 +1,71 @@
-# generalizable minimax algo w/ alpha beta pruning optimization
+# generalizable minimax
 
-
-
-'''
-convert Game states object into a tree
-depends on how we're going to break this up into subproblems and utilize minimax
-
-'''
-
-'''
-depth
-nodeI
-isMax
-score[]
-height
-alpha 
-beta
-'''
-# tree functionality lets gooooo
-#TODO delete stuff like this
-from anytree import Node
-
-import monte_carlo
-
-
-# returns number of children in a particular generation
-# this is needs so minimax knows how many to compare
-
-# This makes so much more sense, this is how we determine how many to compare for minimax
-# idk why i thought I needed to know sibnum
-#i just need to iterate through the board
-def movesLeft
-
-def sibnum(n):
-    return len(n.siblings) + 1
-
-
-
-
-def minimax(depth, nodeI, isMax, score, height, alpha, beta):
-    # terminating, leaf node is reached
-    if (depth == height):
-        return score[nodeI]
-        
-    # if curr move is maximizer, find maximum attainable value
-    
-    if isMax:
-        best = -1000
-        
-        #only works for binary, gotta fix with loop
-        # loop here
-            max(minimax(depth + 1, nodeI * 2, False, score, height), 
-            minimax(depth + 1, nodeI * 2 + 1, False, score, height ))
-    
-    else:
-        best = 1000
-        min(minimax(depth + 1, nodeI * 2, True, score, height), 
-        minimax(depth + 1, nodeI * 2 + 1, True, score, height ))
-        
-
-def unsure_monte_carlo_eval(game, unsure_rewards=[1, -1, .5], sure_rewards=[2, -2, 1.5]):
-    '''Evalutates a game from player 0's perspective'''
-    winner = game.who_won()
-    if winner is None:
-        # game is not complete
-        return monte_carlo_eval(game, rewards=unsure_rewards)
-    else:
-        # game is complete
-        return sure_rewards[winner]
-    
-    
-def complete_minimax(game, depth, eval_func=unsure_monte_carlo_eval, ans=None):
+def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
     #TODO make depth have default
     '''
-    Returns a dictionary in the form {game hash: (best move for player 0 to make in this game, expected value of that move), ...}
+    Returns a dictionary in the form {game hash: (best move for the active player to make in this game, expected value of that move), ...}
     where the dictionary will include all of the game hashes up to the given depth where a move could be made
-    (If it's player 1's turn to move, it will swap the players so the dictionary will always be in the above form)
     We assume that the active player is making the move in the game (not player 0)
     
     This algorithm really only calculates the best move for the active player to make, then calls itself recursively on each situation it encounters
     '''
+    if player_number is None:
+        player_number = game.active_player
+    
     # TODO check if it would be better if we just assumed that player 0 was making the move
     if ans is None:
         ans = {}
         
     # the information ans will contain about this game
-    cur_ans_info = (None, None)    
-    
-    # swap so that the evaluation functions evaluate the correct player
-    game = game.get_active_zero_copy()
-        
+    best_move = None
+    expected_value = None
+
     # only want moves that will continue the game
     moves = game.get_continue_moves()
     if len(moves) == 0:
-        cur_ans_info = (None, eval_func(game))
+        expected_value = eval_func(game, player_number=player_number)
     else:
-        if depth == 0:
-            cur_ans_info = sorted([(move, eval_func(game.get_moved_copy(move))) for move in moves], key=lambda x: x[1])[-1]
+        # figure out if we're maximizing or minimizing
+        if game.active_player == player_number:
+            min_or_max = max
         else:
-            cur_ans_info = (None, None)
+            min_or_max = min
+        if depth == 0:
+            # calculate the best move and the expected value for the original player
+            best_move, expected_value = min_or_max([(move, eval_func(game.get_moved_copy(move), player_number=player_number)) for move in moves], key=lambda x: x[1])
+        else:
+            test_games = []
             for move in moves:
                 test_game = game.get_moved_copy(move)
-                lower_ans = complete_minimax(test_game, depth-1, eval_func=eval_func, ans=ans)
-                if cur_ans_info[1] is None:
-                        cur_ans_info = (move, eval_func(test_game, depth-1, eval_func=eval_func, ans=ans))
-                else:
-                    
-                # overwrite with values from ans
-                ans = lower_ans.update(ans)
+                test_games.append((move, test_game.get_hash()))
+                lower_ans = complete_minimax(test_game, depth-1, eval_func=eval_func, player_number=player_number, ans=ans)
+                # keep the same values in ans while adding in the new ones
+                lower_ans.update(ans)
+                ans = lower_ans
+            best_move, expected_value = min_or_max([(test_game_info[0], ans[test_game_info[1]][1]) for test_game_info in test_games], key=lambda x: x[1])
+            # TODO delete
+            # print("best move for {}is {}\n".format(hash_to_game(game.get_hash()), best_move))
                 
-                lower_ans[test_game.get_hash()]
-                
-                    if cur_ans_info[1] is None:
-                        cur_ans_info = (move, eval_func(test_game, depth-1, eval_func=eval_func, ans=ans))
-                    else:
-                        lower_ans = complete_minimax(game)
-                        val = eval_func(test_game)
-                        if val > cur_ans_info[1]:
-                            cur_ans_info = (move, val)
-                    
-    ans[game.get_hash()] = cur_ans_info
+    ans[game.get_hash()] = (best_move, expected_value)
     return ans
-        
     
-    
-    
-def simple_minimax(game, alpha, beta, eval_func=basic_eval, moves=None):
-    #TODO finish
-    # Note to Will: is_max is now determined by game.active_player. If it's 0, then is_max is True. If it's 1, is_max is False.
-    '''
-    Runs minimax on a Game object, returns a dictionary of hashes of game positions and the best moves to make if you're making the move in that position.
-    
-    game is the game to evaluate the best move to for player 0 to make (regardless of who's turn it is)
-    So, for example, if you gave it a game with player 1's turn, the dictionary it returns will contain the hash of the state of that game along with the best move for 
-    is_max determines if 
-    
-    '''
-    def is_greater(val, g):
-        if g is None:
-            return val
-        return val > g
-        
-    def is_lesser(val, l):
-        if l is None:
-            val
-        return val < g
-    
-    # if it's a leaf
-    next_layer = game.get_next_layer()
-    if len(next_layer) == 0:
-        return val for game
-    
-    if is_max:
-        for lower_game in game.get_next_layer
-        max([minimax(lower_game, not is_max, greater, lesser) for lower_game in game.get_next_layer()])
-    else:
-        minimax([minimax(lower_game, not is_max) for lower_game in game.get_next_layer()])
-    
-    
-        
-        
-    
+
+if __name__ == "__main__":
+    from tic_tac_toe import TicTacToe
+    from monte_carlo_evaluation import unsure_monte_carlo_eval
+    t = TicTacToe()
+    t.make_move(0)
+    t.make_move(1)
+    t.make_move(3)
+    t.make_move(2)
+    #t.make_move(7)
+    #t.make_move(5)
+    #t.make_move(7)
+    #t.make_move(4)
+    print(t)
+    print("'{}'".format(t.get_hash()))
+    ans = complete_minimax(t, -1, unsure_monte_carlo_eval)
+    print(ans)
+    print(len(ans))
+    print(t.get_complexity(-1))
+    print(ans[t.get_hash()])
