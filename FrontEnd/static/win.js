@@ -1,5 +1,3 @@
-//this might be how we need to do things
-//https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
@@ -17,15 +15,14 @@ ctx.fillStyle=gradient;
 
 //Title
 
+
 function Text(text, x, y) {
   this.text = text;
   this.x=x;
   this.y=y;
 };
 
-var title = new Text("Botter Than You", 500, 50);
-var subtitle = new Text("Get ready to lose",500, 100);
-var prompt = new Text("Select Your Poison", 500,300);
+var title = new Text("YOU WON!!", 500, 200);
 
 function Button(text, x, y, width, height) {
     this.x = x;
@@ -37,6 +34,8 @@ function Button(text, x, y, width, height) {
     this.text = text;
 };
 
+var backButton = new Button("BACK",100, 700, 100, 50);
+
 
 function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.fillStyle=txtcolor;
@@ -45,27 +44,21 @@ function drawText(txtinfo, txtcolor, txtsizefont) {
   
 }
 
-drawText(title, gradient, '50pt Verdana');
-drawText(subtitle, gradient,'30pt Verdana');
-drawText(prompt, gradient, '40pt Verdana');
+drawText(title, gradient, '100pt Verdana');
+
 
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
     ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
     
     ctx.fillStyle=txtcol;
-    ctx.font='11pt Courier'
+    ctx.font='13pt Verdana'
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
-var TicTacToeButton = new Button("Tic-Tac-Toe", 450, 400, 100, 50);
-var Connect4Button = new Button("Connect4", 450, 550, 100, 50);
-var AboutButton = new Button("About", 450, 700, 100, 50);
+drawButton(backButton, "yellow", "blue");
 
-
-drawButton(Connect4Button,'blue','yellow');
-drawButton(TicTacToeButton,'blue','yellow');
-drawButton(AboutButton, 'red','yellow');
+//****maybe include image or something*****
 
 
 //adjust mouse click to canvas coordinates
@@ -81,21 +74,16 @@ function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
 }
 
-
 document.addEventListener('click',  function (e) {
   const XY = getXY(canvas, e);
   //use the shape data to determine if there is a collision
-  if(isInside(getXY(canvas, e),TicTacToeButton)) {
-    window.location = "/tictactoe";
+  
+  if(isInside(getXY(canvas, e), backButton)) {
+    alert("going back to homepage!");
+    window.location = "/";
   }
-  else if(isInside(getXY(canvas,e),Connect4Button)) {
-      window.location = "/connect4";
-  }
-  else if(isInside(getXY(canvas,e),AboutButton)){
-      window.location = "/about";
-  }
+    
+  
 }, false);
-
-
 
 

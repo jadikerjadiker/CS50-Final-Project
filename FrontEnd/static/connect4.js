@@ -4,7 +4,10 @@ console.log("Initital player = " + init_player);
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
+
 ctx.textAlign='center';
+
+// gradient to make it look pretty
 
 let gradient=ctx.createLinearGradient(0,0,canvas.width,0);
 gradient.addColorStop("0","magenta");
@@ -15,13 +18,17 @@ ctx.fillStyle=gradient;
 
 
 //Title
+
+
+
+
 function Text(text, x, y) {
   this.text = text;
   this.x=x;
   this.y=y;
-};
+}
 
-var title = new Text("Tic-Tac-Toe", 500, 50);
+var title = new Text("Connect Four", 500, 50);
 
 function Button(text, x, y, width, height) {
     this.x = x;
@@ -32,6 +39,76 @@ function Button(text, x, y, width, height) {
     //this.hovered = false;
     this.text = text;
 };
+
+var backButton = new Button("BACK",100, 700, 100, 50);
+
+function drawText(txtinfo, txtcolor, txtsizefont) {
+  ctx.fillStyle=txtcolor;
+  ctx.font = txtsizefont;
+  ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
+  
+}
+
+drawText(title, gradient, '50pt Verdana');
+
+
+function drawButton(btninfo, btncol, txtcol) {
+    ctx.fillStyle=btncol;
+    ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
+    
+    ctx.fillStyle=txtcol;
+    ctx.font='13pt Verdana';
+    ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
+}
+
+drawButton(backButton, "yellow", "blue");
+
+// draw board
+ctx.lineCap='round';
+ctx.lineWidth = 10;
+ctx.strokeStyle = gradient
+
+for (var i = 0; i < 7; i++){
+    ctx.beginPath();
+    ctx.moveTo(100, 90*i+150);
+    ctx.lineTo(870, 90*i+150);
+    ctx.stroke();    
+}
+
+for (var j = 0; j < 8; j++){
+    ctx.beginPath();
+    ctx.moveTo(110*j + 100, 150)
+    ctx.lineTo(110*j + 100, 690)
+    ctx.stroke();
+}
+
+
+var moves =[];
+  for(var i = 0; i < 7; i++){
+    var move = {
+      x: 100 + 110*i,
+      y: 150,
+      width: 110,
+      height: 600,
+  };
+  moves.push(move);
+  
+}
+
+
+//adjust mouse click to canvas coordinates
+function getXY(canvas, event){ 
+  const rect = canvas.getBoundingClientRect();
+  const y = event.clientY - rect.top;
+  const x = event.clientX - rect.left;
+  return {x:x, y:y};
+}
+
+
+function isInside(pos, rect) {
+    return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
+}
+
 
 function drawX(x, y){
     ctx.fillStyle = gradient;
@@ -51,82 +128,7 @@ function drawO(x, y){
   ctx.stroke();
 }
 
-var backButton = new Button("BACK",100, 700, 100, 50);
 
-function drawText(txtinfo, txtcolor, txtsizefont) {
-  ctx.fillStyle=txtcolor;
-  ctx.font = txtsizefont;
-  ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
-  
-}
-
-drawText(title, gradient, '50pt Verdana');
-
-
-function drawButton(btninfo, btncol, txtcol) {
-    ctx.fillStyle=btncol;
-    ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
-    
-    ctx.fillStyle=txtcol;
-    ctx.font='13pt Verdana'
-    ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
-}
-
-drawButton(backButton, "yellow", "blue");
-
-// draw board
-ctx.lineCap='round';
-ctx.lineWidth = 10;
-ctx.strokeStyle = gradient
-
-ctx.beginPath();
-ctx.moveTo(290,430);
-ctx.lineTo(710,430);
-ctx.stroke();
-
-ctx.beginPath();
-ctx.moveTo(290,570);
-ctx.lineTo(710,570);
-ctx.stroke();
-
-ctx.beginPath();
-ctx.moveTo(430,290);
-ctx.lineTo(430,710);
-ctx.stroke();
-
-ctx.beginPath();
-ctx.moveTo(570,290);
-ctx.lineTo(570,710);
-ctx.stroke();
-
-
-// make array of the eligible moves based on coordinate locations
-
-var moves =[];
-for (var j = 0; j < 3; j++){
-  for(var i = 0; i < 3; i++){
-    var move = {
-      x: 290 + 140*i,
-      y: 290 + 140*j,
-      width: 140,
-      height:140,
-  };
-  moves.push(move);
-  }
-}
-
-//adjust mouse click to canvas coordinates
-function getXY(canvas, event){ 
-  const rect = canvas.getBoundingClientRect();
-  const y = event.clientY - rect.top;
-  const x = event.clientX - rect.left;
-  return {x:x, y:y};
-}
-
-
-function isInside(pos, rect) {
-    return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
-}
 
 document.addEventListener('click', function(e) {
   const XY = getXY(canvas, e);
@@ -145,8 +147,8 @@ document.addEventListener('click', function(e) {
       return;
     }
   }
-  
 }, false);
+
 
 function human_move(move_num) {
   $.post("/human_move", {"move": move_num}, function(data) {
@@ -166,19 +168,21 @@ function bot_move() {
     $("#waiting").hide();
   });
 }
+
+
 ctx.font = "80px Verdana";
 function render_board(data) {
   //render board
   //offset values
-  for (var j = 0; j < 3; j++){
-    for (var i = 0; i < 3; i++){
-      var val = data["" + (j * 3 + i)];
+  for (var j = 0; j < 6; j++){
+    for (var i = 0; i < 7; i++){
+      var val = data["" + (j * 7 + i)];
       if (val == 0) {
         // TODO this could be simplified to one function
-        drawO(290 + 140*i + 75, 140 + 140*j + 215);
+        drawO(100 + 110*i + 50, 150 + 90*j + 45);
     }
       else if (val == 1) {
-        drawX(290 + 140*i + 75, 140 + 140*j + 215);
+        drawX(100 + 110*i + 50, 150 + 90*j + 50);
       }
     }
   }

@@ -27,6 +27,22 @@ class ConnectFour(Game):
         '''
         return [val for val in row for row in self.get_copy().state]
         
+    def get_json_dict(self):
+        ans = {}
+        # iterate down from top to bottom by row
+        index = 0
+        for row in reversed(self.state):
+            for val in row:
+                ans[str(index)] = val
+                index += 1
+        ans["active_player"] = self.active_player
+        winner = self.who_won()
+        if winner is None:
+            ans["winner"] = -2
+        else:
+            ans["winner"] = winner
+        return ans
+        
     def swap_players(self):
         '''Swap the players in a game.'''
         self.state = [[Game.get_other_player(val) if val >=0 else -1 for val in row] for row in self.state]

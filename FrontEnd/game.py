@@ -100,6 +100,11 @@ class Game():
         '''
         raise NotImplementedError
         
+    def get_json_dict(self):
+        '''Get the json for this game in such a way that the browser can display it
+        TODO define better
+        '''
+        
     def swap_players(self):
         '''Swap the players in a game. Returns nothing.'''
         raise NotImplementedError
@@ -126,6 +131,7 @@ class Game():
         
 
 if __name__ == "__main__":
+    # TODO delete and/or clean up
     from tic_tac_toe import TicTacToe
     print("Working...")
     #print("Number of end states in TicTacToe: {}".format(TicTacToe().get_complexity(-1)))

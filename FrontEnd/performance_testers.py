@@ -49,6 +49,8 @@ if __name__ == "__main__":
     from connect_four import ConnectFour
     from players import RandomPlayer, HumanPlayer
     from basic_monte_carlo_player import BasicMonteCarloPlayer
+    from solve_player import SolvePlayer
+    s = SolvePlayer()
     # TODO something is wrong with this; it's not flipping the players results correctly
     # significant difference: 74 - 15, no ties.
     # test_against((BasicMonteCarloPlayer(30, 1), BasicMonteCarloPlayer(30)), ConnectFour, 100, 100, comment=4)
@@ -57,4 +59,4 @@ if __name__ == "__main__":
     # significant: 71 - 6 - 2 (Mainly lost when it had a perfect trap set up that was blocked by an opponent, then it gave up easy wins; should be fixed with minimax)
     # personal note: it is so much fun and kinda hilarious to watch this better player completely out-play the worse one, especially knowing that I have been beaten by the worse one multiple times
     # test_against((BasicMonteCarloPlayer(5, 3), BasicMonteCarloPlayer(30)), ConnectFour, 1, 100, comment=6)
-    test_against((HumanPlayer(), BasicMonteCarloPlayer(30)), ConnectFour, 1, 100, comment=6)
+    test_against((s, RandomPlayer()), TicTacToe, 10, 100, comment=4)

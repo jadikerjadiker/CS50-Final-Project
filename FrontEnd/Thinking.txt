@@ -152,3 +152,28 @@ The switch in players only happens when we're hashing the game.
 
 So how then, once we get the dictionary back, are we to know which ones are on the surface level and which ones are not?
 Let's just also put in the depth
+
+
+12/5/2017
+So, having minimax is great, but it has to look out so far in order to be useful, and then it has to do less simulations in order to run fast enough.
+What if we just used minimax to look for end states. That is, don't put the monte carlo into the minimax, because it's not accurate enough.
+
+Instead, just run monte carlo like we usually do. If the move would lead to a certain win, take it.
+If the move would lead to a certain loss, don't take it.
+Otherwise, follow monte_carlo.
+
+Isn't that what this is doing?
+
+Yes, but we have monte carlo running so far down because it always minimaxes and then monte carlo's
+
+So we want to make a monte carlo indexer and then just combine the two tables together, but look at their next level of moves, not current level.
+So we'd need to hand generate the moves to get into that situation.
+
+
+Os are 0, X's are 1 and empty is -1 for each space
+Go like reading
+"winner": -2 unfinished game -1 tie 0 is player 0 won, 1 is player 1 (X) won
+"active_player": 0 or 1 depending on whose turn it is
+Each game will return a dictionary  with those values
+
+Keys are strings. Values are numbers

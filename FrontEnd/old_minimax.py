@@ -1,6 +1,10 @@
 # generalizable minimax
 
 def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
+    # TODO more comments
+    
+    # TODO specify that -1 depth is entire game
+    
     #TODO make depth have default
     '''
     Returns a dictionary in the form {game hash: (best move for the active player to make in this game, expected value of that move), ...}
@@ -32,7 +36,7 @@ def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
             min_or_max = min
         if depth == 0:
             # calculate the best move and the expected value for the original player
-            best_move, expected_value = min_or_max([(move, eval_func(game.get_moved_copy(move), player_number=player_number)) for move in moves], key=lambda x: x[1])
+            best_move, expected_value = min_or_max([(move, eval_func(game.get_moved_copy(move), player_number=player_number)) for move in moves], key=lambda x: x[1].value)
         else:
             test_games = []
             for move in moves:
@@ -42,7 +46,7 @@ def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
                 # keep the same values in ans while adding in the new ones
                 lower_ans.update(ans)
                 ans = lower_ans
-            best_move, expected_value = min_or_max([(test_game_info[0], ans[test_game_info[1]][1]) for test_game_info in test_games], key=lambda x: x[1])
+            best_move, expected_value = min_or_max([(test_game_info[0], ans[test_game_info[1]][1]) for test_game_info in test_games], key=lambda x: x[1].value)
             # TODO delete
             # print("best move for {}is {}\n".format(hash_to_game(game.get_hash()), best_move))
                 
@@ -54,10 +58,10 @@ if __name__ == "__main__":
     from tic_tac_toe import TicTacToe
     from monte_carlo_evaluation import unsure_monte_carlo_eval
     t = TicTacToe()
-    t.make_move(0)
-    t.make_move(1)
-    t.make_move(3)
-    t.make_move(2)
+    #t.make_move(0)
+    #t.make_move(1)
+    #t.make_move(3)
+    #t.make_move(2)
     #t.make_move(7)
     #t.make_move(5)
     #t.make_move(7)
@@ -68,4 +72,4 @@ if __name__ == "__main__":
     print(ans)
     print(len(ans))
     print(t.get_complexity(-1))
-    print(ans[t.get_hash()])
+    print([str(thing) for thing in ans[t.get_hash()]])

@@ -30,6 +30,18 @@ class TicTacToe(Game):
             ans.swap_players()
             return ans.state
         '''
+    
+    def get_json_dict(self):
+        ans = {}
+        for i, val in enumerate(self.state):
+            ans[str(i)] = val
+        ans["active_player"] = self.active_player
+        winner = self.who_won()
+        if winner is None:
+            ans["winner"] = -2
+        else:
+            ans["winner"] = winner
+        return ans
             
     def swap_players(self):
         self.state = [Game.get_other_player(val) if val >= 0 else -1 for val in self.state ]
