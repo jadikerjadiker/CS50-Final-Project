@@ -1,15 +1,15 @@
-Botter Than You by London Lowmanstone and William Yao
-
 *Welcome to the Botter Than You DOCS by London Lowmanstone and William Yao*
 
-
-Introduction:
+*INTRODUCTION*\n
 Objective:
-Botter Than You is a web application that runs a computer bot that plays two player games.
+- Botter Than You is a web application that runs a computer bot that plays two player games.
 
-Tools:
-Front End: HTML templates, CSS, Javascript, HTML5 Canvas
-Backend: python Flask
+Tools:\n
+Front End:
+HTML templates, CSS, Javascript, HTML5 Canvas
+Backend:
+python Flask
+
 Front-Back end Communication: jQuery, ajax
 
 Functionality:
@@ -18,12 +18,15 @@ Uses 5 HTML templates, 3 Javascript files and 2 css stylesheets. The HTML templa
 render the canvas on the page.
 
 Backend: 
-Minimax algorithm is used to solve tic-tac-toe upon launch of the application. 
-Monte Carlo algorithm and position evaluation function, which optimizations is used to inform the 
+- Minimax algorithm is used to solve tic-tac-toe upon launch of the application. 
+- Monte Carlo algorithm and position evaluation function, which optimizations is used to inform the 
 connect4 player using simulations.
 
 
 #talk generally about design of project, inspiration for project functionality, Generalizability, goals etc.
+
+
+nothing is hardcoded
 
 Files:
 Front End:

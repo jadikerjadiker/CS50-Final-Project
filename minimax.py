@@ -1,5 +1,6 @@
 # generalizable minimax
 
+
 def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
     '''
     Returns a dictionary in the form:
@@ -11,11 +12,11 @@ def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
     # if not specified, assume that we evaluate from the viewpoint of the active player
     if player_number is None:
         player_number = game.active_player
-    
-    # if ans is given for us to build off of, 
+
+    # if ans is not given, use an empty dict
     if ans is None:
         ans = {}
-        
+
     # the information ans will contain about this game
     best_move = None
     expected_value = None
@@ -32,34 +33,38 @@ def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
             min_or_max = min
         if depth == 0:
             # calculate the best move and the expected value for the original player
-            best_move, expected_value = min_or_max([(move, eval_func(game.get_moved_copy(move), player_number=player_number)) for move in moves], key=lambda x: x[1].value)
+            best_move, expected_value = min_or_max([(move, eval_func(game.get_moved_copy(move), player_number=player_number))
+                                                    for move in moves], key=lambda x: x[1].value)
         else:
             test_games = []
             for move in moves:
                 test_game = game.get_moved_copy(move)
                 test_games.append((move, test_game.get_hash()))
-                lower_ans = complete_minimax(test_game, depth-1, eval_func=eval_func, player_number=player_number, ans=ans)
+                lower_ans = complete_minimax(test_game, depth - 1, eval_func=eval_func,
+                                             player_number=player_number, ans=ans)
                 # keep the same values in ans while adding in the new ones
                 lower_ans.update(ans)
                 ans = lower_ans
-            best_move, expected_value = min_or_max([(test_game_info[0], ans[test_game_info[1]][1]) for test_game_info in test_games], key=lambda x: x[1].value)
-                
+            best_move, expected_value = min_or_max([(test_game_info[0], ans[test_game_info[1]][1])
+                                                    for test_game_info in test_games],
+                                                   key=lambda x: x[1].value)
+
     ans[game.get_hash()] = (best_move, expected_value)
     return ans
-    
+
 
 if __name__ == "__main__":
     from tic_tac_toe import TicTacToe
     from monte_carlo_evaluation import unsure_monte_carlo_eval
     t = TicTacToe()
-    #t.make_move(0)
-    #t.make_move(1)
-    #t.make_move(3)
-    #t.make_move(2)
-    #t.make_move(7)
-    #t.make_move(5)
-    #t.make_move(7)
-    #t.make_move(4)
+    # t.make_move(0)
+    # t.make_move(1)
+    # t.make_move(3)
+    # t.make_move(2)
+    # t.make_move(7)
+    # t.make_move(5)
+    # t.make_move(7)
+    # t.make_move(4)
     print(t)
     print("'{}'".format(t.get_hash()))
     ans = complete_minimax(t, -1, unsure_monte_carlo_eval)
