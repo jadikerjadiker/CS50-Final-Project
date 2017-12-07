@@ -39,15 +39,12 @@ function Button(text, x, y, width, height) {
     this.text = text;
 }
 
-
-
 function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.fillStyle=txtcolor;
   ctx.font = txtsizefont;
   ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
   
 }
-
 
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
@@ -132,7 +129,6 @@ function drawO(x, y){
   ctx.arc(x,y,30,0,2*Math.PI);
   ctx.stroke();
 }
-
 
 document.addEventListener('click', function(e) {
   const XY = getXY(canvas, e);

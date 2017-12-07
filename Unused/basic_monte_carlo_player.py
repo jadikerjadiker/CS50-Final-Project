@@ -1,3 +1,11 @@
+'''
+This is an example of a class that we did not end up using in our final version.
+This class was used for most game testing and was the best player for connect4 until
+...the AdvisedMonteCarloPlayer was programmed.
+You can try playing against a BasicMonteCarloPlayer(5, 2) and see how it works!
+(Use the code provided in performance_testers to do this.)
+'''
+
 from players import Player, RandomPlayer
 from monte_carlo_evaluation import monte_carlo_eval
 

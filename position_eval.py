@@ -122,8 +122,6 @@ def position_eval(game, player_number, depth, rewards=(2, -2, 1.5, 0, 0)):
         
     return PositionEvaluation(results, player_number, rewards)
     
-    
-
 
 if __name__ == "__main__":
     from tic_tac_toe import TicTacToe

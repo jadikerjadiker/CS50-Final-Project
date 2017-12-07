@@ -1,3 +1,7 @@
+Website: https://daringfireball.net/projects/markdown/basics
+Markdown Renderer: https://daringfireball.net/projects/markdown/dingus
+
 style50 everything
 write down documentation
 Readme should include instructions about `about` and `instuctions`
+Upload video to YouTube
