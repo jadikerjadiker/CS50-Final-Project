@@ -3,5 +3,5 @@ Markdown Renderer: https://daringfireball.net/projects/markdown/dingus
 
 style50 everything
 write down documentation
-Readme should include instructions about `about` and `instuctions`
+Readme should include instructions about `about` and `instructions`
 Upload video to YouTube

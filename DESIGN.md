@@ -1,8 +1,6 @@
 Botter Than You by London Lowmanstone and William Yao
 
-
-Welcome to the Botter Than You DOCS by London Lowmanstone and William Yao
-
+*Welcome to the Botter Than You DOCS by London Lowmanstone and William Yao*
 
 
 Introduction:
@@ -65,6 +63,7 @@ templates folder:
 Back End:
 
 advised_monte_carlo_player.py:
+TODO
 
 application.py:
 Drivers the Flask app
@@ -73,6 +72,7 @@ connect_four.py:
 Game class for connect4
 
 evaluation.py:
+TODO
 
 game.py:
 General Game class, tictactoe and connect4 classes inherit this class
@@ -81,20 +81,25 @@ minimax.py:
 Generalizable implementation of the minimax algorithm
 
 monte_carlo_evaluation.py:
+TODO
 
 performance_testers.py:
+TODO
 
 players.py:
+TODO
 
 position_eval.py:
+TODO
 
 solve_play.py:
+TODO
 
 tic_tac_toe.py:
 Game class for tic-tac-toe
 
 useful_functions.py:
-
+TODO
 
 
 
