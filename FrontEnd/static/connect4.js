@@ -25,7 +25,7 @@ function Text(text, x, y) {
   this.y=y;
 }
 
-var title = new Text("Connect Four", 500, 50);
+//var title = new Text("Connect Four", 500, 50);
 
 function Button(text, x, y, width, height) {
     this.x = x;
@@ -47,7 +47,7 @@ function drawText(txtinfo, txtcolor, txtsizefont) {
   
 }
 
-drawText(title, gradient, '50pt Algerian');
+//drawText(title, gradient, '50pt Algerian');
 
 
 function drawButton(btninfo, btncol, txtcol) {

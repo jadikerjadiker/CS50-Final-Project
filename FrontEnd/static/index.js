@@ -22,9 +22,9 @@ function Text(text, x, y) {
   this.y=y;
 };
 
-var title = new Text("*Botter Than You*", 500, 55);
+//var title = new Text("*Botter Than You*", 500, 55);
 var subtitle = new Text("Get ready to lose",500, 130);
-var prompt = new Text("Select Your Poison", 500,300);
+//var prompt = new Text("Select Your Poison", 500,200);
 
 function Button(text, x, y, width, height) {
     this.x = x;
@@ -44,9 +44,9 @@ function drawText(txtinfo, txtcolor, txtsizefont) {
   
 }
 
-drawText(title, gradient, '50pt Algerian');
+//drawText(title, gradient, '50pt Algerian');
 drawText(subtitle, gradient,'30pt Helvetica');
-drawText(prompt, gradient, '40pt Helvetica');
+//drawText(prompt, gradient, '40pt Helvetica');
 
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
@@ -57,10 +57,10 @@ function drawButton(btninfo, btncol, txtcol) {
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
-var InstructionsButton = new Button("Instructions", 450, 400, 100, 50);
-var TicTacToeButton = new Button("Tic-Tac-Toe", 450, 500, 100, 50);
-var Connect4Button = new Button("Connect4", 450, 600, 100, 50);
-var AboutButton = new Button("About", 450, 700, 100, 50);
+var InstructionsButton = new Button("Instructions", 450, 200, 100, 50);
+var TicTacToeButton = new Button("Tic-Tac-Toe", 450, 300, 100, 50);
+var Connect4Button = new Button("Connect4", 450, 400, 100, 50);
+var AboutButton = new Button("About", 450, 500, 100, 50);
 
 drawButton(InstructionsButton,'red', 'yellow');
 drawButton(Connect4Button,'blue','yellow');

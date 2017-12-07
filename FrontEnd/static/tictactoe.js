@@ -4,6 +4,13 @@ console.log("Initital player = " + init_player);
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
+
+// Title image
+
+var title_image = new Image();
+title_image.src = "../static/Tic-Tac-Toe.PNG";
+ctx.drawImage(title_image, 100, 100);
+
 ctx.textAlign='center';
 
 // makes gradient object, used for aesthetic appeal
@@ -15,11 +22,6 @@ gradient.addColorStop("1.0","red");
 ctx.fillStyle=gradient;
 
 
-
-
-
-
-
 //Title
 function Text(text, x, y) {
   this.text = text;
@@ -27,7 +29,7 @@ function Text(text, x, y) {
   this.y=y;
 };
 
-var title = new Text("Tic-Tac-Toe", 500, 50);
+//var title = new Text("Tic-Tac-Toe", 500, 50);
 
 // win counter labels
 var you = new Text("You: ", 100, 300);
@@ -35,10 +37,6 @@ var bot = new Text("Bot: ",100, 350);
 var tie = new Text("Tie: ", 100, 400);
 
 
-// win counters
-var youCounter = 0;
-var botCounter = 0;
-var tieCounter = 0;
 
 function Button(text, x, y, width, height) {
     this.x = x;
@@ -78,11 +76,8 @@ function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
 }
 
-drawText(title, gradient, '50pt Algerian');
+//drawText(title, gradient, '50pt Algerian');
 
-drawText(you, gradient, '20pt Verdana');
-drawText(bot, gradient, '20pt Verdana');
-drawText(tie, gradient, '20pt Verdana');
 
 
 
@@ -217,21 +212,15 @@ function render_board(data) {
     // TODO use text objects here (and below)
     ctx.fillStyle = 'green';
     ctx.fillText("YOU WON!", 500, 120);
-    youCounter +=1;
-    ctx.fillText("" + youCounter, 140, 300);
   }
   if (data["winner"] == 1){
     ctx.fillStyle = 'red';
     ctx.fillText("YOU LOST! Wow...you go to Harvard tho", 500, 120);
-    botCounter+=1;
-    ctx.fillText("" + botCounter, 140, 350);
   }
   
   if (data["winner"] == -1){
     ctx.fillStyle = 'blue';
     ctx.fillText("A TIE!", 500, 120);
-    tieCounter+=1;
-    ctx.fillText("" + tieCounter, 140, 400);
   }
 }
 

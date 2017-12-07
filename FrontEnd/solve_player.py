@@ -1,6 +1,6 @@
 from players import Player
 # TODO change name
-from old_minimax import complete_minimax
+from minimax import complete_minimax
 from evaluation import simple_eval
 
 class SolvePlayer(Player):

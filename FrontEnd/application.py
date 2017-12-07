@@ -6,6 +6,7 @@ from flask import Flask, render_template, redirect, request, jsonify
 from tic_tac_toe import TicTacToe
 from connect_four import ConnectFour
 from basic_monte_carlo_player import BasicMonteCarloPlayer
+from advised_monte_carlo_player import AdvisedMonteCarloPlayer
 from solve_player import SolvePlayer
 
 app = Flask(__name__)
@@ -50,7 +51,7 @@ def connect4():
     moving = False
     game = ConnectFour()
     game.active_player = random.choice([0, 1])
-    bot = BasicMonteCarloPlayer(5, 2)
+    bot = AdvisedMonteCarloPlayer(5, 2, 4)
     return render_template("connect4.html", player = game.active_player)
 
 @app.route("/human_move", methods=["POST"])
