@@ -12,10 +12,24 @@
                 width: 1000px;
                 
             }
+             #waiting {
+                font: Verdana;
+                color: blue;
+                display: none;
+                position: absolute;
+                top: 100px;
+                left: 520px;
+                width: 90%;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
         <input id="player" type="hidden" value={{player}}>
+        <div id="waiting">
+            <h3>Bot is deciding</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Gray_circles_rotate.gif/120px-Gray_circles_rotate.gif"></img>
+        </div>
         <canvas id='canvas' width=1000 height=1000>This canvas cannot be displayed</canvas>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src='../static/connect4.js'></script>

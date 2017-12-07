@@ -6,12 +6,18 @@ let ctx = canvas.getContext('2d');
 
 ctx.textAlign='center';
 
+// makes gradient object, used for aesthetic appeal
 let gradient=ctx.createLinearGradient(0,0,canvas.width,0);
 gradient.addColorStop("0","magenta");
 gradient.addColorStop("0.5","blue");
 gradient.addColorStop("1.0","red");
 
 ctx.fillStyle=gradient;
+
+
+
+
+
 
 
 //Title
@@ -23,6 +29,17 @@ function Text(text, x, y) {
 
 var title = new Text("Tic-Tac-Toe", 500, 50);
 
+// win counter labels
+var you = new Text("You: ", 100, 300);
+var bot = new Text("Bot: ",100, 350);
+var tie = new Text("Tie: ", 100, 400);
+
+
+// win counters
+var youCounter = 0;
+var botCounter = 0;
+var tieCounter = 0;
+
 function Button(text, x, y, width, height) {
     this.x = x;
     this.y = y;
@@ -31,10 +48,10 @@ function Button(text, x, y, width, height) {
     //this.clicked = false;
     //this.hovered = false;
     this.text = text;
-};
+}
 
 function drawX(x, y){
-    ctx.fillStyle = gradient;
+    ctx.strokeStyle=gradient;
     ctx.beginPath();
     ctx.moveTo(x - 20, y - 20);
     ctx.lineTo(x + 20, y + 20);
@@ -45,22 +62,28 @@ function drawX(x, y){
 }
 
 function drawO(x, y){
-  ctx.fillStyle = 'red';
+  ctx.strokeStyle = 'red';
   ctx.beginPath();  
   ctx.arc(x,y,30,0,2*Math.PI);
   ctx.stroke();
 }
 
 var backButton = new Button("BACK",100, 700, 100, 50);
+var restartButton = new Button("RESTART", 800, 700, 100, 50);
+
 
 function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.fillStyle=txtcolor;
   ctx.font = txtsizefont;
   ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
-  
 }
 
-drawText(title, gradient, '50pt Verdana');
+drawText(title, gradient, '50pt Algerian');
+
+drawText(you, gradient, '20pt Verdana');
+drawText(bot, gradient, '20pt Verdana');
+drawText(tie, gradient, '20pt Verdana');
+
 
 
 function drawButton(btninfo, btncol, txtcol) {
@@ -72,13 +95,16 @@ function drawButton(btninfo, btncol, txtcol) {
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
-drawButton(backButton, "yellow", "blue");
 
-// draw board
+drawButton(backButton, "yellow", "blue");
+drawButton(restartButton, "yellow", "blue");
+
+// style lines
 ctx.lineCap='round';
 ctx.lineWidth = 10;
-ctx.strokeStyle = gradient
+ctx.strokeStyle = 'black'
 
+// draw board
 ctx.beginPath();
 ctx.moveTo(290,430);
 ctx.lineTo(710,430);
@@ -100,8 +126,7 @@ ctx.lineTo(570,710);
 ctx.stroke();
 
 
-// make array of the eligible moves based on coordinate locations
-
+// make array of the eligible moves based on x,y coordinate locations
 var moves =[];
 for (var j = 0; j < 3; j++){
   for(var i = 0; i < 3; i++){
@@ -123,7 +148,7 @@ function getXY(canvas, event){
   return {x:x, y:y};
 }
 
-
+// determines if mouse is within a certain rect using x, y
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
 }
@@ -133,8 +158,12 @@ document.addEventListener('click', function(e) {
   //use the shape data to determine if there is a collision
   
   // if back button clicked, go back to the main page
-  if(isInside(getXY(canvas, e), backButton)) {
+  if (isInside(getXY(canvas, e), backButton)) {
     window.location = '/';
+    return;
+  }
+  if (isInside(getXY(canvas,e), restartButton)){
+    window.location = '/tictactoe';
     return;
   }
   
@@ -166,7 +195,8 @@ function bot_move() {
     $("#waiting").hide();
   });
 }
-ctx.font = "80px Verdana";
+
+ctx.font = "40px Verdana";
 function render_board(data) {
   //render board
   //offset values
@@ -187,15 +217,21 @@ function render_board(data) {
     // TODO use text objects here (and below)
     ctx.fillStyle = 'green';
     ctx.fillText("YOU WON!", 500, 120);
+    youCounter +=1;
+    ctx.fillText("" + youCounter, 140, 300);
   }
   if (data["winner"] == 1){
     ctx.fillStyle = 'red';
-    ctx.fillText("YOU LOST!", 500, 120);
+    ctx.fillText("YOU LOST! Wow...you go to Harvard tho", 500, 120);
+    botCounter+=1;
+    ctx.fillText("" + botCounter, 140, 350);
   }
   
   if (data["winner"] == -1){
     ctx.fillStyle = 'blue';
     ctx.fillText("A TIE!", 500, 120);
+    tieCounter+=1;
+    ctx.fillText("" + tieCounter, 140, 400);
   }
 }
 

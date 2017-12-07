@@ -19,9 +19,6 @@ ctx.fillStyle=gradient;
 
 //Title
 
-
-
-
 function Text(text, x, y) {
   this.text = text;
   this.x=x;
@@ -38,9 +35,10 @@ function Button(text, x, y, width, height) {
     //this.clicked = false;
     //this.hovered = false;
     this.text = text;
-};
+}
 
 var backButton = new Button("BACK",100, 700, 100, 50);
+var restartButton = new Button("RESTART", 800, 700, 100, 50);
 
 function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.fillStyle=txtcolor;
@@ -49,7 +47,7 @@ function drawText(txtinfo, txtcolor, txtsizefont) {
   
 }
 
-drawText(title, gradient, '50pt Verdana');
+drawText(title, gradient, '50pt Algerian');
 
 
 function drawButton(btninfo, btncol, txtcol) {
@@ -62,6 +60,7 @@ function drawButton(btninfo, btncol, txtcol) {
 }
 
 drawButton(backButton, "yellow", "blue");
+drawButton(restartButton, "yellow", "blue");
 
 // draw board
 ctx.lineCap='round';
@@ -111,7 +110,7 @@ function isInside(pos, rect) {
 
 
 function drawX(x, y){
-    ctx.fillStyle = gradient;
+    ctx.strokeStyle = gradient;
     ctx.beginPath();
     ctx.moveTo(x - 20, y - 20);
     ctx.lineTo(x + 20, y + 20);
@@ -122,12 +121,11 @@ function drawX(x, y){
 }
 
 function drawO(x, y){
-  ctx.fillStyle = 'red';
+  ctx.strokeStyle = 'red';
   ctx.beginPath();  
   ctx.arc(x,y,30,0,2*Math.PI);
   ctx.stroke();
 }
-
 
 
 document.addEventListener('click', function(e) {
@@ -137,6 +135,10 @@ document.addEventListener('click', function(e) {
   // if back button clicked, go back to the main page
   if(isInside(getXY(canvas, e), backButton)) {
     window.location = '/';
+    return;
+  }
+  if (isInside(getXY(canvas, e), restartButton)){
+    window.location = '/connect4';
     return;
   }
   

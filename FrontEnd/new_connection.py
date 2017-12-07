@@ -15,11 +15,10 @@ game = TicTacToe()
 tic_tac_toe_bot = SolvePlayer()
 # have the bot solve tic tac toe on startup
 # TODO turn this back on
-tic_tac_toe_bot.make_move(TicTacToe())
+# tic_tac_toe_bot.make_move(TicTacToe())
 
 bot = BasicMonteCarloPlayer(10, 1)
 moving = False
-
 
 # from CS50
 @app.after_request
@@ -98,6 +97,10 @@ def make_bot_move():
 @app.route("/about", methods = ["GET", "POST"])
 def aboutpage():
     return render_template("about.html")
+    
+@app.route("/instructions", methods = ["GET", "POST"])
+def instructionspage():
+    return render_template("instructions.html");
 
 if __name__ == "__main__":
     app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 8080)))

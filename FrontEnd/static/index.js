@@ -1,9 +1,9 @@
 //this might be how we need to do things
 //https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
 
+// set up HTML5 canvas
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
-
 
 ctx.textAlign='center';
 
@@ -15,16 +15,15 @@ gradient.addColorStop("1.0","red");
 ctx.fillStyle=gradient;
 
 
-//Title
-
+// Title, subtitle and prompt for homepage
 function Text(text, x, y) {
   this.text = text;
   this.x=x;
   this.y=y;
 };
 
-var title = new Text("Botter Than You", 500, 50);
-var subtitle = new Text("Get ready to lose",500, 100);
+var title = new Text("*Botter Than You*", 500, 55);
+var subtitle = new Text("Get ready to lose",500, 130);
 var prompt = new Text("Select Your Poison", 500,300);
 
 function Button(text, x, y, width, height) {
@@ -39,30 +38,31 @@ function Button(text, x, y, width, height) {
 
 
 function drawText(txtinfo, txtcolor, txtsizefont) {
-  ctx.fillStyle=txtcolor;
+  ctx.strokeStyle=txtcolor;
   ctx.font = txtsizefont;
-  ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
+  ctx.strokeText(txtinfo.text,txtinfo.x,txtinfo.y);
   
 }
 
-drawText(title, gradient, '50pt Verdana');
-drawText(subtitle, gradient,'30pt Verdana');
-drawText(prompt, gradient, '40pt Verdana');
+drawText(title, gradient, '50pt Algerian');
+drawText(subtitle, gradient,'30pt Helvetica');
+drawText(prompt, gradient, '40pt Helvetica');
 
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
     ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
     
     ctx.fillStyle=txtcol;
-    ctx.font='11pt Courier'
+    ctx.font='10pt Courier'
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
-var TicTacToeButton = new Button("Tic-Tac-Toe", 450, 400, 100, 50);
-var Connect4Button = new Button("Connect4", 450, 550, 100, 50);
+var InstructionsButton = new Button("Instructions", 450, 400, 100, 50);
+var TicTacToeButton = new Button("Tic-Tac-Toe", 450, 500, 100, 50);
+var Connect4Button = new Button("Connect4", 450, 600, 100, 50);
 var AboutButton = new Button("About", 450, 700, 100, 50);
 
-
+drawButton(InstructionsButton,'red', 'yellow');
 drawButton(Connect4Button,'blue','yellow');
 drawButton(TicTacToeButton,'blue','yellow');
 drawButton(AboutButton, 'red','yellow');
@@ -93,6 +93,9 @@ document.addEventListener('click',  function (e) {
   }
   else if(isInside(getXY(canvas,e),AboutButton)){
       window.location = "/about";
+  }
+  else if(isInside(getXY(canvas,e),InstructionsButton)){
+      window.location = "/instructions";
   }
 }, false);
 

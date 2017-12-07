@@ -9,19 +9,15 @@ class BasicMonteCarloPlayer(Player):
         self.rewards = rewards
     
     def make_move(self, game):
-        # TODO delete
-        from useful_functions import p_r
-        
         # Assumes it is making a move on its own turn
-
         poss_moves = game.get_possible_moves()
+        # upgrade: use "game.get_moved_copy()"
         test_games = []
         for move in poss_moves:
             test_game = game.get_copy()
             test_game.make_move(move)
             test_games.append(test_game)
             
-        
         # from https://stackoverflow.com/questions/6618515/sorting-list-based-on-values-from-another-list
         # Sort the moves based on a Monte Carlo evaluation
         scores = [monte_carlo_eval(test_game, player_number=game.active_player, rewards=self.rewards,
