@@ -1,8 +1,9 @@
 # by London Lowmanstone (from high school)
 
-def print_percent(index_number, out_of, increment_amt = 1, round_amt = 0):
+
+def print_percent(index_number, out_of, increment_amt=1, round_amt=0):
     '''Prints the progress through a loop.
-    
+
     If you're running a for loop like `for i in range(max_val)`
     then in the loop you can call printPercent(i, max_val) to print the percentage that the loop is done.
     This doens't work perfectly because of rounding error, but it's close enough.

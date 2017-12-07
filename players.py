@@ -1,14 +1,15 @@
 import random
 
+
 class Player:
     def make_move(self, game):
         '''Make a move in the game (a Game object)'''
         raise NotImplementedError
-        
+
     def __str__(self):
         "<Player object>"
-        
-        
+
+
 class RandomPlayer(Player):
     @classmethod
     def get_random_game(cls, game_cls):
@@ -17,11 +18,11 @@ class RandomPlayer(Player):
         while game.who_won() is None:
             game.make_move(random.choice(game.get_possible_moves()))
         return game
-    
+
     def make_move(self, game):
         '''Make a random move'''
         game.make_move(random.choice(game.get_possible_moves()))
-        
+
     def __str__(self):
         '''Simple printing'''
         return "<RandomPlayer object>"
@@ -30,9 +31,10 @@ class RandomPlayer(Player):
 class HumanPlayer(Player):
     '''A class to allow humans to play a game in the terminal.
     Used for debugging before creating a GUI/website.
-    
+
     Assumes that the game implements a __str__ method that prints out something human-understandable.
     '''
+
     def make_move(self, game):
         moves = game.get_possible_moves()
         print(game)
@@ -59,7 +61,6 @@ class HumanPlayer(Player):
             except Exception:
                 # tell the user their input was invalid and re-run the loop
                 print("Sorry, that didn't work.")
-        
+
         # make the move
         game.make_move(move)
-    

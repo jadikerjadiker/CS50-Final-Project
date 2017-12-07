@@ -4,7 +4,7 @@
 Objective:
 - Botter Than You is a web application that runs a computer bot that plays two player games.
 
-Tools:\n
+*TOOLS:*\n
 Front End:
 HTML templates, CSS, Javascript, HTML5 Canvas
 Backend:
@@ -12,7 +12,7 @@ python Flask
 
 Front-Back end Communication: jQuery, ajax
 
-Functionality:
+*FUNCTIONALITY*:
 Front End: 
 Uses 5 HTML templates, 3 Javascript files and 2 css stylesheets. The HTML templates use the CSS stylesheets and
 render the canvas on the page.
@@ -26,13 +26,13 @@ connect4 player using simulations.
 #talk generally about design of project, inspiration for project functionality, Generalizability, goals etc.
 
 
-nothing is hardcoded
+nothing is hardcoded, 
 
-Files:
+*FILES:*
 Front End:
-static folder:
-    logos folder:
-    Contains png files that are used throughout the project
+- static folder:
+    - logos folder:
+        - Contains png files that are used throughout the project
     BotterThanYou.PNG is used on the homepage, see index.html template
     Connect4.PNG is used on the connect4 page, see connect4.js
     Tic-Tac-Toe.PNG is used on the tictactoe page, see tictactoe.js
