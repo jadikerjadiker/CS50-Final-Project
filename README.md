@@ -4,7 +4,10 @@ Botter Than You is a nearly unbeatable computer bot that plays two player games 
 In this iteration of Botter Than You (Dec 2017), Tic Tac Toe and Connect4 are available for users to play.
 
 *REQUIREMENTS*
-what are the requirements for this thang to work
+
+This application was developed using the Cloud9 IDE, not CS50 specific IDE. However, running this application using the CS50 IDE should work properly. 
+Open all the source code in CS50 IDE. Make sure Flask is installed. Type flask run in the terminal and follow the link that the server 
+provides to view and interact with the Botter Than You project.
 
 
 *INSTRUCTIONS TO PLAY (also available to view in the application):*

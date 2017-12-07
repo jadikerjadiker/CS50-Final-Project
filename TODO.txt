@@ -1,7 +1,8 @@
 Website: https://daringfireball.net/projects/markdown/basics
 Markdown Renderer: https://daringfireball.net/projects/markdown/dingus
 
-style50 everything
 write down documentation
-Readme should include instructions about `about` and `instructions`
-Upload video to YouTube
+Readme should include instructions about `about` and `instructions` and requirements to run the project:
+    flask, jinja
+    
+Double check style50 for all files

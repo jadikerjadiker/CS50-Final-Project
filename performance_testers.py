@@ -19,16 +19,17 @@ def test_against(players, game_class, rounds=50, games_per_round=1000, comment=2
     pct_increment: how much the percentage should increase by when it prints out
     '''
 
-    # default to values that will be overridden
+    # default to values for each list that will be overridden
     lows = [games_per_round + 1] * 3
     highs = [-1] * 3
     overall = [0] * 3
     for i in range(rounds):
-        results = [0] * 3  # [losses, ties, wins] for the player
+        results = [0] * 3  # [wins, losses, ties] for the player
         for game_num in range(games_per_round):
             if comment > 3:
                 print("Testing game {}/{}".format((game_num + 1), games_per_round))
             game = game_class()
+            # randomize who goes first
             game.active_player = random.choice([0, 1])
             while game.who_won() is None:
                 players[game.active_player].make_move(game)
@@ -67,17 +68,28 @@ def test_against(players, game_class, rounds=50, games_per_round=1000, comment=2
 
 
 if __name__ == "__main__":
+    '''Play and test different players.
+    Currently this is set up for you to play against the perfect tic-tac-toe player
+    '''
+    '''
+    These are some notes about how good different players were against each other:
+    
+    # significant difference: 74 - 15, no ties.
+    # test_against((BasicMonteCarloPlayer(30, 1), BasicMonteCarloPlayer(30)), ConnectFour, 100, 100, comment=4)
+    
+    # no significant difference: 29 - 28 - 2
+    # test_against((BasicMonteCarloPlayer(40, 1), BasicMonteCarloPlayer(30, 1)), ConnectFour, 1, 100, comment=4)
+    
+    # significant: 71 - 6 - 2 (Mainly lost when it had a perfect trap set up that was blocked by an opponent, then it gave up easy wins; should be fixed with minimax)
+    # test_against((BasicMonteCarloPlayer(5, 3), BasicMonteCarloPlayer(30)), ConnectFour, 1, 100, comment=6)
+    '''
     from tic_tac_toe import TicTacToe
     from connect_four import ConnectFour
     from players import RandomPlayer, HumanPlayer
-    from basic_monte_carlo_player import BasicMonteCarloPlayer
     from solve_player import SolvePlayer
     s = SolvePlayer()
-    # significant difference: 74 - 15, no ties.
-    # test_against((BasicMonteCarloPlayer(30, 1), BasicMonteCarloPlayer(30)), ConnectFour, 100, 100, comment=4)
-    # no significant difference: 29 - 28 - 2
-    # test_against((BasicMonteCarloPlayer(40, 1), BasicMonteCarloPlayer(30, 1)), ConnectFour, 1, 100, comment=4)
-    # significant: 71 - 6 - 2 (Mainly lost when it had a perfect trap set up that was blocked by an opponent, then it gave up easy wins; should be fixed with minimax)
-    # personal note: it is so much fun and kinda hilarious to watch this better player completely out-play the worse one, especially knowing that I have been beaten by the worse one multiple times
-    # test_against((BasicMonteCarloPlayer(5, 3), BasicMonteCarloPlayer(30)), ConnectFour, 1, 100, comment=6)
-    test_against((s, RandomPlayer()), TicTacToe, 10, 100, comment=4)
+    print("Solving tic-tac-toe...")
+    s.make_move(TicTacToe())
+    print("Tic-tac-toe solved!")
+    # Test how good the human player is against the perfect tic-tac-toe player
+    test_against((HumanPlayer(), s), TicTacToe, 10, 100, comment=5)

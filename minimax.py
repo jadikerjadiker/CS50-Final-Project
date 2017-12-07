@@ -54,21 +54,9 @@ def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
 
 
 if __name__ == "__main__":
+    '''Used for testing of minimax algorithm
+    '''
     from tic_tac_toe import TicTacToe
-    from monte_carlo_evaluation import unsure_monte_carlo_eval
     t = TicTacToe()
-    # t.make_move(0)
-    # t.make_move(1)
-    # t.make_move(3)
-    # t.make_move(2)
-    # t.make_move(7)
-    # t.make_move(5)
-    # t.make_move(7)
-    # t.make_move(4)
-    print(t)
-    print("'{}'".format(t.get_hash()))
-    ans = complete_minimax(t, -1, unsure_monte_carlo_eval)
-    print(ans)
-    print(len(ans))
+    # gets complexity of tictactoe
     print(t.get_complexity(-1))
-    print([str(thing) for thing in ans[t.get_hash()]])

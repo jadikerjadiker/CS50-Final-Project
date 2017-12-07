@@ -3,32 +3,26 @@ let init_player = document.getElementById("player").value;
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
-
-// Gradient for aesthetic purpose
+// Gradient variable for aesthetic purposes and usage
 let gradient=ctx.createLinearGradient(0,0,canvas.width,0);
 gradient.addColorStop("0","magenta");
 gradient.addColorStop("0.5","blue");
 gradient.addColorStop("1.0","red");
 
+// Set inital context properties
 ctx.fillStyle=gradient;
 ctx.textAlign='center';
 
 // Title image
-var title_image = new Image();
+let title_image = new Image();
 title_image.src = "../static/logos/Connect4.PNG";
 
+// Draws the title image on the screen once it is ready
 title_image.onload = function(){
   ctx.drawImage(title_image, 400, 30,150,100);
 };
 
-
-function Text(text, x, y) {
-  this.text = text;
-  this.x=x;
-  this.y=y;
-}
-
-// Button class with useful attributes
+// Button class with attributes for text, coordinate location, width/height data
 function Button(text, x, y, width, height) {
     this.x = x;
     this.y = y;
@@ -39,13 +33,7 @@ function Button(text, x, y, width, height) {
     this.text = text;
 }
 
-function drawText(txtinfo, txtcolor, txtsizefont) {
-  ctx.fillStyle=txtcolor;
-  ctx.font = txtsizefont;
-  ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
-  
-}
-
+// function to draw buttons on canvas, arguments include button object, color, text color
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
     ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
@@ -56,8 +44,8 @@ function drawButton(btninfo, btncol, txtcol) {
 }
 
 // Creates instances of two buttons and draws them on canvas
-var backButton = new Button("BACK",100, 700, 100, 50);
-var restartButton = new Button("RESTART", 800, 700, 100, 50);
+let backButton = new Button("BACK",100, 700, 100, 50);
+let restartButton = new Button("RESTART", 800, 700, 100, 50);
 
 drawButton(backButton, "yellow", "blue");
 drawButton(restartButton, "yellow", "blue");
@@ -65,9 +53,9 @@ drawButton(restartButton, "yellow", "blue");
 // Sets context properties to draw game board
 ctx.lineCap='round';
 ctx.lineWidth = 10;
-ctx.strokeStyle = gradient
+ctx.strokeStyle = gradient;
 
-// Draws game board
+// Draws game board for connect4
 for (var i = 0; i < 7; i++){
     ctx.beginPath();
     ctx.moveTo(100, 90*i+150);
@@ -77,15 +65,17 @@ for (var i = 0; i < 7; i++){
 
 for (var j = 0; j < 8; j++){
     ctx.beginPath();
-    ctx.moveTo(110*j + 100, 150)
-    ctx.lineTo(110*j + 100, 690)
+    ctx.moveTo(110*j + 100, 150);
+    ctx.lineTo(110*j + 100, 690);
     ctx.stroke();
 }
 
-
-// Creates list of moves that player can make based on x, y location
+/* Creates list of moves that player can make based on x, y location.
+   i.e Connect4 has 7 possible moves, one for each column of the grid.
+   This makes a list of rectangles (x, y, width, height) that represent each of the 7 columns on the board.
+*/
 var moves =[];
-  for(var i = 0; i < 7; i++){
+  for(i = 0; i < 7; i++){
     var move = {
       x: 100 + 110*i,
       y: 150,
@@ -132,21 +122,20 @@ function drawO(x, y){
 
 document.addEventListener('click', function(e) {
   const XY = getXY(canvas, e);
-  //use the shape data to determine if there is a collision
   
   // if back button clicked, go back to the main page
-  if(isInside(getXY(canvas, e), backButton)) {
+  if(isInside(XY, backButton)) {
     window.location = '/';
     return;
   }
-  if (isInside(getXY(canvas, e), restartButton)){
+  if (isInside(XY, restartButton)){
     window.location = '/connect4';
     return;
   }
   
   // check if a human made a move
   for (var i = 0; i < moves.length; i++){
-    if (isInside(getXY(canvas,e), moves[i])){
+    if (isInside(XY, moves[i])){
       human_move(i);
       return;
     }
@@ -178,8 +167,6 @@ function bot_move() {
 */
 ctx.font = "60px Verdana";
 function render_board(data) {
-  //render board
-  //offset values
   for (var j = 0; j < 6; j++){
     for (var i = 0; i < 7; i++){
       var val = data["" + (j * 7 + i)];
@@ -187,6 +174,7 @@ function render_board(data) {
         // TODO this could be simplified to one function
         drawO(100 + 110*i + 50, 150 + 90*j + 45);
     }
+    
       else if (val == 1) {
         drawX(100 + 110*i + 50, 150 + 90*j + 50);
       }
@@ -195,7 +183,6 @@ function render_board(data) {
   
   // this condition will be satifised very, very rarely; if at all
   if (data["winner"] == 0){
-    // TODO use text objects here (and below)
     ctx.fillStyle = 'green';
     ctx.fillText("YOU WON!", 200, 120);
   }
@@ -211,6 +198,7 @@ function render_board(data) {
   }
 }
 
+// Once the window has loaded, check if we should request a bot move
 $(window).on("load", function() {
   // if the first player is the bot, request the bot's move
   if (init_player == 1) {

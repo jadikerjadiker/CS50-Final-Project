@@ -1,4 +1,5 @@
 '''
+This code is not completely documented because it is not used in our project.
 This is an example of a class that we did not end up using in our final version.
 This class was used for most game testing and was the best player for connect4 until
 ...the AdvisedMonteCarloPlayer was programmed.

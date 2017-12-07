@@ -2,7 +2,6 @@
 
 <html>
     <head>
-        
         <style type="text/css">
             canvas {
                 padding-left: 0;
@@ -25,12 +24,14 @@
         </style>
         <link href="../static/style.css" rel="stylesheet"/>
     </head>
+    
     <body>
         <input id="player" type="hidden" value={{player}}>
         <div id="waiting">
             <h3><font face="courier">BOT IS DECIDING</font></h3>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Gray_circles_rotate.gif/120px-Gray_circles_rotate.gif"></img>
         </div>
+        
         <canvas id='canvas' width=1000 height=800>This canvas cannot be displayed</canvas>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src='../static/connect4.js'></script>

@@ -6,15 +6,15 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
 // Creates image object with source as a png file from the static folder
-var title_image = new Image();
+let title_image = new Image();
 title_image.src = "../static/logos/Tic-Tac-Toe.PNG";
 
+// Draws the title image on the screen once it is ready
 title_image.onload = function(){
   ctx.drawImage(title_image, 370, 30,280,200);
 };
 
-
-// Makes gradient object, used for aesthetic appeal
+// Makes gradient variable, used for aesthetic appeal, inspired by stackoverflow
 let gradient=ctx.createLinearGradient(0,0,canvas.width,0);
 gradient.addColorStop("0","magenta");
 gradient.addColorStop("0.5","blue");
@@ -23,13 +23,6 @@ gradient.addColorStop("1.0","red");
 // Sets a few inital context properties
 ctx.fillStyle=gradient;
 ctx.textAlign='center';
-
-// Text class that takes in text and coordinates as params
-function Text(text, x, y) {
-  this.text = text;
-  this.x=x;
-  this.y=y;
-};
 
 // Button class that takes in text, coordinates and width, height data
 function Button(text, x, y, width, height) {
@@ -62,24 +55,18 @@ function drawO(x, y){
   ctx.stroke();
 }
 
-function drawText(txtinfo, txtcolor, txtsizefont) {
-  ctx.fillStyle=txtcolor;
-  ctx.font = txtsizefont;
-  ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
-}
-
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
     ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
     
     ctx.fillStyle=txtcol;
-    ctx.font='13pt Verdana'
+    ctx.font='13pt Verdana';
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
 // Creates instances of two buttons and draws them on canvas
-var backButton = new Button("BACK",100, 700, 100, 50);
-var restartButton = new Button("RESTART", 800, 700, 100, 50);
+let backButton = new Button("BACK",100, 700, 100, 50);
+let restartButton = new Button("RESTART", 800, 700, 100, 50);
 
 drawButton(backButton, "yellow", "blue");
 drawButton(restartButton, "yellow", "blue");
@@ -87,9 +74,9 @@ drawButton(restartButton, "yellow", "blue");
 // Sets some line properties before drawing board on canvas
 ctx.lineCap='round';
 ctx.lineWidth = 10;
-ctx.strokeStyle = 'black'
+ctx.strokeStyle = 'black';
 
-// Draw tictactoe board using coordinate system
+// Draw tictacoe board using coordinate system
 ctx.beginPath();
 ctx.moveTo(290,430);
 ctx.lineTo(710,430);
@@ -110,7 +97,10 @@ ctx.moveTo(570,290);
 ctx.lineTo(570,710);
 ctx.stroke();
 
-// Makes array of the eligible moves on game board based on x, y coordinate locations
+/* Creates list of moves that player can make based on x, y location.
+   i.e TicTacToe has 9 possible moves, one for each square of the grid.
+   This makes a list of rectangles (x, y, width, height) that represent each of the 9 squares on the board.
+*/
 var moves =[];
 for (var j = 0; j < 3; j++){
   for(var i = 0; i < 3; i++){
@@ -119,7 +109,7 @@ for (var j = 0; j < 3; j++){
       y: 290 + 140*j,
       width: 140,
       height:140,
-  };
+    };
   moves.push(move);
   }
 }
@@ -139,23 +129,21 @@ function isInside(pos, rect) {
 
 document.addEventListener('click', function(e) {
   const XY = getXY(canvas, e);
-  //use the shape data to determine if there is a collision
   
   // If back button clicked, go back to the main page
-  if (isInside(getXY(canvas, e), backButton)) {
+  if (isInside(XY, backButton)) {
     window.location = '/';
     return;
   }
-  
   // If restart button clicked, restart game from blank board
-  if (isInside(getXY(canvas,e), restartButton)){
+  if (isInside(XY, restartButton)){
     window.location = '/tictactoe';
     return;
   }
   
   // Checks if a human made a move
   for (var i = 0; i < moves.length; i++){
-    if (isInside(getXY(canvas,e), moves[i])){
+    if (isInside(XY, moves[i])){
       human_move(i);
       return;
     }
@@ -179,10 +167,9 @@ function bot_move() {
   });
 }
 
+// Renders board that represents current game state from data passed from python backend
 ctx.font = "40px Verdana";
 function render_board(data) {
-  //render board
-  //offset values
   for (var j = 0; j < 3; j++){
     for (var i = 0; i < 3; i++){
       var val = data["" + (j * 3 + i)];
@@ -197,7 +184,6 @@ function render_board(data) {
   }
   // This will never execute becuase the bot will never lose
   if (data["winner"] == 0){
-    // TODO use text objects here (and below)
     ctx.fillStyle = 'green';
     ctx.fillText("YOU WON!", 250, 120);
   }
@@ -211,6 +197,7 @@ function render_board(data) {
   }
 }
 
+// Once the window has loaded, check if we should request a bot move
 $(window).on("load", function() {
   // if the first player is the bot, request the bot's move
   if (init_player == 1) {
