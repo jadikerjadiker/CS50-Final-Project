@@ -1,18 +1,23 @@
 *Hi CS50 staff! Welcome to Botter Than You!*
 
-Botter Than You is a nearly unbeatable computer bot that plays two player games developed by London Lowmanstone and William Yao using HTML5 canvas, python and Flask. 
+Botter Than You is a nearly unbeatable computer bot that plays two player games developed by London Lowmanstone and William Yao using HTML5 canvas, python and Flask.
+
 In this iteration of Botter Than You (Dec 2017), Tic Tac Toe and Connect4 are available for users to play.
 
-*REQUIREMENTS*
+REQUIREMENTS
+============
 
-This application was developed using the Cloud9 IDE, not CS50 specific IDE. However, running this application using the CS50 IDE should work properly. 
-Open all the source code in CS50 IDE. Make sure Flask is installed. Type flask run in the terminal and follow the link that the server 
+This application was developed using the Cloud9 IDE, not the CS50 specific IDE. However, running this application using the CS50 IDE should work properly. 
+Open all the source code in CS50 IDE. Make sure Flask and Jinja are functional. Type `flask run` in the terminal and follow the link the server 
 provides to view and interact with the Botter Than You project.
 
 
-*INSTRUCTIONS TO PLAY (also available to view in the application):*
+INSTRUCTIONS TO PLAY
+====================
+*(also available to view in the application)*
 
-Tic-Tac-Toe:
+Tic-Tac-Toe
+-----------
 
 0. Select the Tic-Tac-Toe game from the homepage by clicking the blue and yellow button. This should redirect to the Tic-Tac-Toe page with an empty board.
 1. The player that goes first is randomly chosen. Whenever the loading circle appears, this indicates the bot is deciding where to move. When the loading circle disappears, it is the user's turn 
@@ -21,7 +26,8 @@ to move.
 3. A message indicating the result of the game will appear at the top of the screen once the game is complete.
 4. To replay or choose another game, click the Back button, which will return to the home screen.
 
-Connect4:
+Connect4
+--------
 
 0. Select the Connect4 game from the homepage by clicking the blue and yellow button. This should redirect to the Tic-Tac-Toe page with an empty board.
 1. The player that goes first is randomly chosen. Whenever the loading circle appears, this indicates the bot is deciding where to move. When the loading circle disappears, it is the user's turn 

@@ -1,5 +1,7 @@
+// Figure out who's going first
 let init_player = document.getElementById("player").value;
 
+// Sets up HTML5 canvas and context as variables
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
@@ -33,7 +35,7 @@ function Button(text, x, y, width, height) {
     this.text = text;
 }
 
-// function to draw buttons on canvas, arguments include button object, color, text color
+// Function to draw buttons on canvas, arguments include button object, color, text color
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
     ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
@@ -120,20 +122,24 @@ function drawO(x, y){
   ctx.stroke();
 }
 
+// Deal with user clicks
+// Inspired by StackOverflow
 document.addEventListener('click', function(e) {
   const XY = getXY(canvas, e);
   
-  // if back button clicked, go back to the main page
+  // If back button clicked, go back to the main page
   if(isInside(XY, backButton)) {
     window.location = '/';
     return;
   }
+  
+  // If restart button clicked, restart game from blank board
   if (isInside(XY, restartButton)){
     window.location = '/connect4';
     return;
   }
   
-  // check if a human made a move
+  // Check if a human made a move
   for (var i = 0; i < moves.length; i++){
     if (isInside(XY, moves[i])){
       human_move(i);
@@ -171,10 +177,8 @@ function render_board(data) {
     for (var i = 0; i < 7; i++){
       var val = data["" + (j * 7 + i)];
       if (val == 0) {
-        // TODO this could be simplified to one function
         drawO(100 + 110*i + 50, 150 + 90*j + 45);
-    }
-    
+      } 
       else if (val == 1) {
         drawX(100 + 110*i + 50, 150 + 90*j + 50);
       }

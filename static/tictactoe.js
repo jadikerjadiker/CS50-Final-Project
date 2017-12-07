@@ -1,5 +1,5 @@
+// Figure out who's going first
 let init_player = document.getElementById("player").value;
-
 
 // Sets up HTML5 canvas and context as variables
 let canvas = document.getElementById('canvas');
@@ -55,6 +55,7 @@ function drawO(x, y){
   ctx.stroke();
 }
 
+// Function to draw buttons on canvas, arguments include button object, color, text color
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
     ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
@@ -123,10 +124,12 @@ function getXY(canvas, event){
 }
 
 // Function to determine if mouse is within a certain rect using x, y
+// Inspired by StackOverflow
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
 }
 
+// Deal with user clicks
 document.addEventListener('click', function(e) {
   const XY = getXY(canvas, e);
   
@@ -135,6 +138,7 @@ document.addEventListener('click', function(e) {
     window.location = '/';
     return;
   }
+  
   // If restart button clicked, restart game from blank board
   if (isInside(XY, restartButton)){
     window.location = '/tictactoe';
@@ -174,14 +178,14 @@ function render_board(data) {
     for (var i = 0; i < 3; i++){
       var val = data["" + (j * 3 + i)];
       if (val == 0) {
-        // TODO this could be simplified to one function
         drawO(290 + 140*i + 75, 140 + 140*j + 215);
-    }
+      }
       else if (val == 1) {
         drawX(290 + 140*i + 75, 140 + 140*j + 215);
       }
     }
   }
+  
   // This will never execute becuase the bot will never lose
   if (data["winner"] == 0){
     ctx.fillStyle = 'green';

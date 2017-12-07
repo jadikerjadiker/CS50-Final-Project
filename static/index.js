@@ -1,4 +1,4 @@
-// set up HTML5 canvas and context
+// Set up HTML5 canvas and context
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
@@ -73,6 +73,7 @@ function getXY(canvas, event){
 
 /* Function that takes in an x, y position and a rectangular shape
    Determines if the pos is contained within the rectangle
+   Inspired by StackOverflow
 */
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
