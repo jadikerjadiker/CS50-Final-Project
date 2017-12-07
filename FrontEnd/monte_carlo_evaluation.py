@@ -46,8 +46,6 @@ def monte_carlo_eval(original_game, player_number, main_player=RandomPlayer(), r
             
             # update the value
             value += simple_eval(game, player_number, rewards).value
-            # TODO delete
-            # print("simple_eval of game:\n{}\nwith player_number:{}\nwas: {}".format(game, player_number, simple_eval(game, player_number, rewards).value))
             
         return MonteCarloEvaluation(value / simulation_amount, simulation_amount)
     else:

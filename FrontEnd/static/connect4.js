@@ -5,19 +5,27 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
 
-ctx.textAlign='center';
 
-// gradient to make it look pretty
 
+
+// Gradient for aesthetic purpose
 let gradient=ctx.createLinearGradient(0,0,canvas.width,0);
 gradient.addColorStop("0","magenta");
 gradient.addColorStop("0.5","blue");
 gradient.addColorStop("1.0","red");
 
 ctx.fillStyle=gradient;
+ctx.textAlign='center';
+
+// Title image
+var title_image = new Image();
+title_image.src = "../static/Connect4.PNG";
+
+title_image.onload = function(){
+  ctx.drawImage(title_image, 400, 30,150,100);
+};
 
 
-//Title
 
 function Text(text, x, y) {
   this.text = text;
@@ -25,8 +33,7 @@ function Text(text, x, y) {
   this.y=y;
 }
 
-//var title = new Text("Connect Four", 500, 50);
-
+// Button class with useful attributes
 function Button(text, x, y, width, height) {
     this.x = x;
     this.y = y;
@@ -151,7 +158,7 @@ document.addEventListener('click', function(e) {
   }
 }, false);
 
-
+// Passes data back to front end after human makes a move
 function human_move(move_num) {
   $.post("/human_move", {"move": move_num}, function(data) {
     console.log(data);
@@ -162,6 +169,7 @@ function human_move(move_num) {
   });
 }
 
+// Passes data back to front end after bot makes a move
 function bot_move() {
   $("#waiting").show();
   $.post("/bot_move", {}, function(data) {
@@ -172,7 +180,7 @@ function bot_move() {
 }
 
 
-ctx.font = "80px Verdana";
+ctx.font = "60px Verdana";
 function render_board(data) {
   //render board
   //offset values
@@ -188,24 +196,27 @@ function render_board(data) {
       }
     }
   }
-  // this will never execute hehehehe
+  // this will execute very, very rarely
   if (data["winner"] == 0){
     // TODO use text objects here (and below)
     ctx.fillStyle = 'green';
-    ctx.fillText("YOU WON!", 500, 120);
+    ctx.fillText("YOU WON!", 200, 120);
   }
+  
   if (data["winner"] == 1){
     ctx.fillStyle = 'red';
-    ctx.fillText("YOU LOST!", 500, 120);
+    ctx.fillText("YOU LOST!", 200, 120);
   }
   
   if (data["winner"] == -1){
     ctx.fillStyle = 'blue';
-    ctx.fillText("A TIE!", 500, 120);
+    ctx.fillText("A TIE!", 200, 120);
   }
 }
 
-// if the first player is the bot, request the bot's move
-if (init_player == 1) {
-  bot_move();
-}
+$(window).on("load", function() {
+  // if the first player is the bot, request the bot's move
+  if (init_player == 1) {
+    bot_move();
+  }
+});

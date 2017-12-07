@@ -1,22 +1,18 @@
 # generalizable minimax
 
 def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
-    # TODO more comments
-    
-    # TODO specify that -1 depth is entire game
-    
-    #TODO make depth have default
     '''
-    Returns a dictionary in the form {game hash: (best move for the active player to make in this game, expected value of that move), ...}
+    Returns a dictionary in the form:
+    {game hash: (best move for the active player to make in this game,
+                 expected value of the move according to the player with player number player_number), ...}
     where the dictionary will include all of the game hashes up to the given depth where a move could be made
     We assume that the active player is making the move in the game (not player 0)
-    
-    This algorithm really only calculates the best move for the active player to make, then calls itself recursively on each situation it encounters
     '''
+    # if not specified, assume that we evaluate from the viewpoint of the active player
     if player_number is None:
         player_number = game.active_player
     
-    # TODO check if it would be better if we just assumed that player 0 was making the move
+    # if ans is given for us to build off of, 
     if ans is None:
         ans = {}
         
@@ -47,8 +43,6 @@ def complete_minimax(game, depth, eval_func, player_number=None, ans=None):
                 lower_ans.update(ans)
                 ans = lower_ans
             best_move, expected_value = min_or_max([(test_game_info[0], ans[test_game_info[1]][1]) for test_game_info in test_games], key=lambda x: x[1].value)
-            # TODO delete
-            # print("best move for {}is {}\n".format(hash_to_game(game.get_hash()), best_move))
                 
     ans[game.get_hash()] = (best_move, expected_value)
     return ans

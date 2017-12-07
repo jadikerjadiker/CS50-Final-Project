@@ -9,7 +9,10 @@ let ctx = canvas.getContext('2d');
 
 var title_image = new Image();
 title_image.src = "../static/Tic-Tac-Toe.PNG";
-ctx.drawImage(title_image, 100, 100);
+
+title_image.onload = function(){
+  ctx.drawImage(title_image, 370, 30,280,200);
+};
 
 ctx.textAlign='center';
 
@@ -211,20 +214,22 @@ function render_board(data) {
   if (data["winner"] == 0){
     // TODO use text objects here (and below)
     ctx.fillStyle = 'green';
-    ctx.fillText("YOU WON!", 500, 120);
+    ctx.fillText("YOU WON!", 250, 120);
   }
   if (data["winner"] == 1){
     ctx.fillStyle = 'red';
-    ctx.fillText("YOU LOST! Wow...you go to Harvard tho", 500, 120);
+    ctx.fillText("YOU LOST!", 250, 120);
   }
   
   if (data["winner"] == -1){
-    ctx.fillStyle = 'blue';
-    ctx.fillText("A TIE!", 500, 120);
+    ctx.fillStyle = 'white';
+    ctx.fillText("A TIE!", 250, 120);
   }
 }
 
-// if the first player is the bot, request the bot's move
-if (init_player == 1) {
-  bot_move();
-}
+$(window).on("load", function() {
+  // if the first player is the bot, request the bot's move
+  if (init_player == 1) {
+    bot_move();
+  }
+});

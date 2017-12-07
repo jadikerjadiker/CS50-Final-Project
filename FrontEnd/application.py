@@ -10,7 +10,6 @@ from advised_monte_carlo_player import AdvisedMonteCarloPlayer
 from solve_player import SolvePlayer
 
 app = Flask(__name__)
-# TODO ask someone if this is the right design
     
 game = TicTacToe()
 tic_tac_toe_bot = SolvePlayer()
@@ -51,7 +50,7 @@ def connect4():
     moving = False
     game = ConnectFour()
     game.active_player = random.choice([0, 1])
-    bot = AdvisedMonteCarloPlayer(5, 2, 4)
+    bot = AdvisedMonteCarloPlayer(7, 2, 4)
     return render_template("connect4.html", player = game.active_player)
 
 @app.route("/human_move", methods=["POST"])

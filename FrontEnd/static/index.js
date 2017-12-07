@@ -5,27 +5,25 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
-ctx.textAlign='center';
 
+// Creates color gradient for style
 let gradient=ctx.createLinearGradient(0,0,canvas.width,0);
 gradient.addColorStop("0","magenta");
 gradient.addColorStop("0.5","blue");
 gradient.addColorStop("1.0","red");
 
+// Sets inital context properties
 ctx.fillStyle=gradient;
+ctx.textAlign='center';
 
-
-// Title, subtitle and prompt for homepage
+// Text class with useful attributes
 function Text(text, x, y) {
   this.text = text;
   this.x=x;
   this.y=y;
-};
+}
 
-//var title = new Text("*Botter Than You*", 500, 55);
-var subtitle = new Text("Get ready to lose",500, 130);
-//var prompt = new Text("Select Your Poison", 500,200);
-
+// Button class with useful attributes
 function Button(text, x, y, width, height) {
     this.x = x;
     this.y = y;
@@ -36,7 +34,7 @@ function Button(text, x, y, width, height) {
     this.text = text;
 };
 
-
+// function to draw text on canvas given certain parameters
 function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.strokeStyle=txtcolor;
   ctx.font = txtsizefont;
@@ -44,10 +42,7 @@ function drawText(txtinfo, txtcolor, txtsizefont) {
   
 }
 
-//drawText(title, gradient, '50pt Algerian');
-drawText(subtitle, gradient,'30pt Helvetica');
-//drawText(prompt, gradient, '40pt Helvetica');
-
+// function to draw buttons on canvas
 function drawButton(btninfo, btncol, txtcol) {
     ctx.fillStyle=btncol;
     ctx.fillRect(btninfo.x,btninfo.y,btninfo.width,btninfo.height);
@@ -57,18 +52,22 @@ function drawButton(btninfo, btncol, txtcol) {
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
+// creates instances of text and buttons and draws on canvas
+var subtitle = new Text("Get ready to lose!", 500, 130);
+drawText(subtitle, 'white','30pt Courier');
+
 var InstructionsButton = new Button("Instructions", 450, 200, 100, 50);
 var TicTacToeButton = new Button("Tic-Tac-Toe", 450, 300, 100, 50);
 var Connect4Button = new Button("Connect4", 450, 400, 100, 50);
 var AboutButton = new Button("About", 450, 500, 100, 50);
 
-drawButton(InstructionsButton,'red', 'yellow');
-drawButton(Connect4Button,'blue','yellow');
-drawButton(TicTacToeButton,'blue','yellow');
-drawButton(AboutButton, 'red','yellow');
+drawButton(InstructionsButton,'red', 'white');
+drawButton(Connect4Button,'blue','white');
+drawButton(TicTacToeButton,'blue','white');
+drawButton(AboutButton, 'red','white');
 
 
-//adjust mouse click to canvas coordinates
+// Gets x, y coordinates of mouse on canvas
 function getXY(canvas, event){ 
   const rect = canvas.getBoundingClientRect();
   const y = event.clientY - rect.top;
@@ -76,12 +75,12 @@ function getXY(canvas, event){
   return {x:x, y:y};
 }
 
-
+// Determines if mouse is inside certain rectangular shape
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
 }
 
-
+// Mouse click event listener to redirect to other pages based on button click
 document.addEventListener('click',  function (e) {
   const XY = getXY(canvas, e);
   //use the shape data to determine if there is a collision

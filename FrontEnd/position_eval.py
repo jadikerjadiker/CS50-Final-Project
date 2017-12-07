@@ -47,9 +47,11 @@ class PositionEvaluation(Evaluation):
     def __str__(self):
         return "<PositionEvaluation object with results: {}>".format(self.results)
 
-def position_eval(game, player_number, depth, rewards=[2, -2, 1.5, 0], lower_level=None):
+def position_eval(game, player_number, depth, rewards=(2, -2, 1.5, 0, 0)):
     '''
     Returns a PositionEvaluation object
+    TODO document better
+    
     '''
     
     def any_one(evaluations, value):
@@ -98,8 +100,7 @@ def position_eval(game, player_number, depth, rewards=[2, -2, 1.5, 0], lower_lev
                 # loss; winner is opponent
                 ans.add(1)
     else:
-        if lower_level is None:
-            lower_level = [position_eval(lower_game, player_number, depth-1, rewards) for lower_game in game.get_next_level()]
+        lower_level = [position_eval(lower_game, player_number, depth-1, rewards) for lower_game in game.get_next_level()]
         any_or_all = [lambda v: any_one(lower_level, v), lambda v: all_ones(lower_level, v)]
         if game.active_player != player_number:
             # if the player we're evaluating is not the active player, whether or not we're looking for any or all reverses

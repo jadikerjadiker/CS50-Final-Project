@@ -20,27 +20,24 @@ class TicTacToe(Game):
             ans += string_list[val]
         return ans
     
-    def get_properties(self):
-        return self.state[:]
-        ''' TODO only if we need to switch players
-        if self.active_player == 0:
-            return self.state[:]
-        else:
-            ans = self.get_copy()
-            ans.swap_players()
-            return ans.state
-        '''
-    
     def get_json_dict(self):
+        # the dictionary we will return
         ans = {}
+        # iterate through each slot on the board
         for i, val in enumerate(self.state):
+            # the key is the number of the slot
+            # the value is the player who moved in that slot
             ans[str(i)] = val
+        # add the active player key and value
         ans["active_player"] = self.active_player
+        # add the winner key and value
         winner = self.who_won()
         if winner is None:
             ans["winner"] = -2
         else:
             ans["winner"] = winner
+        
+        # return the result
         return ans
             
     def swap_players(self):

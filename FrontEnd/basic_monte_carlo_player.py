@@ -25,19 +25,3 @@ class BasicMonteCarloPlayer(Player):
                   for test_game in test_games]
                   
         game.make_move(max(zip(scores, poss_moves))[1])
-  
-if __name__ == "__main__":
-    from tic_tac_toe import TicTacToe
-    from players import RandomPlayer
-    g = TicTacToe()
-    players = (BasicMonteCarloPlayer(1000), RandomPlayer())
-    while g.who_won() is None:
-        print(g)
-        print()
-        players[g.active_player].make_move(g)
-        
-    print(g)
-    if g.who_won() == -1:
-        print("Tie!")
-    else:
-        print("Player {} won!".format(g.who_won()))

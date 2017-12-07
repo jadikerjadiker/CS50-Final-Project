@@ -15,24 +15,16 @@ class ConnectFour(Game):
             for val in row:
                 ans += string_list[val]
         return ans
-    
-    def get_properties(self):
-        '''This returns a list of numbers of constant length describing the state, or None
-        This is what we'd feed into a neural net to learn about the game
-        
-        For example, if the game really was player 1's turn to move, it would swap all the pieces and then return the same values
-        ...as if player 0 had made all the moves that player 1 did and vice versa
-        
-        TODO this will need to be defined better if/when we actually start using neural networks
-        '''
-        return [val for val in row for row in self.get_copy().state]
         
     def get_json_dict(self):
+        # follows the same general idea as tic_tac_toe
+        # the dictionary we will return
         ans = {}
         # iterate down from top to bottom by row
         index = 0
         for row in reversed(self.state):
             for val in row:
+                # the key is the slot number, the value is the player in that slot
                 ans[str(index)] = val
                 index += 1
         ans["active_player"] = self.active_player

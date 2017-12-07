@@ -26,6 +26,10 @@ class RandomPlayer(Player):
 
 
 class HumanPlayer(Player):
+    '''A class to allow humans to play a game.
+    
+    Assumes that TODO finish
+    '''
     def make_move(self, game):
         moves = game.get_possible_moves()
         print(game)
