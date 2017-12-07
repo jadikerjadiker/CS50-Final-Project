@@ -7,17 +7,19 @@ For some time, this was used as our tic-tac-toe player, but was abandoned when p
 from players import Player
 
 class IndexPlayer(Player):
+    '''A basic class for any player whose moves can be made out of a dictionary'''
     def __init__(self, index_func):
+        # a function that returns a dict of moves to remember
         self.index_func = index_func
+        # see the `memory` property of the SolvePlayer class to understand how predetermined works
         self.predetermined = {}
     
     def make_move(self, game):
-        # TODO document
         self.add_predetermined(self.index_func(game, player_number=game.active_player))
         game.make_move(self.predetermined[game.get_hash()][0])
         
     def add_predetermined(self, more):
-        # a template for subclasses to override
+        # a template that subclasses can override
         # completely overwrites matching values in self.predetermined with new values from more
         self.predetermined.update(more)
         
