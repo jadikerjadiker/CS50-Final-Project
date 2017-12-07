@@ -14,8 +14,7 @@ app = Flask(__name__)
 game = TicTacToe()
 tic_tac_toe_bot = SolvePlayer()
 # have the bot solve tic tac toe on startup
-# TODO turn this back on
-# tic_tac_toe_bot.make_move(TicTacToe())
+tic_tac_toe_bot.make_move(TicTacToe())
 
 bot = BasicMonteCarloPlayer(10, 1)
 moving = False

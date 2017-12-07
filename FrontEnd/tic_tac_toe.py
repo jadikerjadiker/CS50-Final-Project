@@ -6,14 +6,38 @@ Class for the game Tic-tac-toe
 from game import Game
 
 class TicTacToe(Game):
-    '''
-    TODO documentation
+    '''Class that implements the game tic-tac-toe.
+    
+    See the Game class documentation for explanations of each method.
     '''
     def get_initial_state(self):
+        '''The state of the game is a list of nine numbers.
+        
+        Each number represents which player has moved in a particular slot.
+        X is 1, O is 0, and -1 represents an empty slot.
+        
+        The slots are labeled as follows:
+        0 1 2
+        3 4 5
+        6 7 8
+        
+        For example, if the game looks like:
+        X - O
+        X O -
+        - X O
+        
+        then the state of the game will be
+        [1, -1, 0, 1, 0, -1, -1, 1, 0]
+        '''
         # return an empty board
         return [-1] * 9
     
     def get_state_hash(self):
+        '''Return a human-readable hash.
+        
+        This hash is also used by the __str__ method below, so edit with caution.
+        '''
+        # technically, this doesn't have to be human-readable, but it was useful for debugging
         string_list = ["O", "X", " "]
         ans = ""
         for val in self.state:
@@ -54,8 +78,6 @@ class TicTacToe(Game):
         self.active_player = Game.get_other_player(self.active_player)
         
     def who_won(self):
-        '''returns 0 if player 0 won, 1 if player 1 won, -1 if it's a tie and None if it's unfinished'''
-        '''TODO fix inline comments'''
         if -1 in self.state:
             # game is not done, default to unfinished
             ans = None
@@ -71,7 +93,7 @@ class TicTacToe(Game):
         When checking is 2 we check top left diagonal
         When checking is 3 we check top right diagonal
         '''
-        # TODO this could probably be done better
+        # upgrade: less duplicate code
         for checking in range(4):
             # the number of the symbol in the series we're looking for
             for i in range(3):
@@ -83,6 +105,7 @@ class TicTacToe(Game):
                             # iterate through the row
                             val = self.state[i * 3 + j]
                         else:
+                            # checking == 1
                             # checking columns
                             # iterate through the column
                             val = self.state[i + j * 3]
@@ -101,10 +124,11 @@ class TicTacToe(Game):
                             elif j==2:
                                 return player
                 else: #checking diagonals
-                    if checking==2:
+                    if checking == 2:
                         val = self.state[i * 4]  # want it to check slots 0, 4, 8
-                    else: #checking==3
-                        val = self.state[(i+1)*2]  # want it to check slots 2, 4, 6
+                    else:
+                        # checking == 3
+                        val = self.state[(i + 1) * 2]  # want it to check slots 2, 4, 6
                         
                     if val == -1: #person doesn't have the row or column
                         break
@@ -124,19 +148,8 @@ class TicTacToe(Game):
             this = self
         else:
             this = self.get_swapped_copy()
+            
+        # replace the spaces in the hash with dashes to make it move human-readable
         ans = this.get_hash().replace(" ", "-")
+        # format in the rows
         return "{}'s turn:\n{}\n{}\n{}".format(["O", "X"][self.active_player], ans[0:3], ans[3:6], ans[6:9])
-        
-if __name__ == "__main__":
-    import random
-    t = TicTacToe()
-    while t.who_won() is None:
-        print(t.state)
-        print("'"+t.get_hash()+"'")
-        t.make_move(random.choice(t.get_possible_moves()))
-    print(t.state)
-    print("'"+t.get_hash()+"'")
-    print(t.who_won())
-    print(t)
-    t.swap_players()
-    print(t)

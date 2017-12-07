@@ -1,11 +1,7 @@
 let init_player = document.getElementById("player").value;
-console.log("Initital player = " + init_player);
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
-
-
-
 
 
 // Gradient for aesthetic purpose
@@ -19,12 +15,11 @@ ctx.textAlign='center';
 
 // Title image
 var title_image = new Image();
-title_image.src = "../static/Connect4.PNG";
+title_image.src = "../static/logos/Connect4.PNG";
 
 title_image.onload = function(){
   ctx.drawImage(title_image, 400, 30,150,100);
 };
-
 
 
 function Text(text, x, y) {
@@ -44,8 +39,7 @@ function Button(text, x, y, width, height) {
     this.text = text;
 }
 
-var backButton = new Button("BACK",100, 700, 100, 50);
-var restartButton = new Button("RESTART", 800, 700, 100, 50);
+
 
 function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.fillStyle=txtcolor;
@@ -53,8 +47,6 @@ function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.fillText(txtinfo.text,txtinfo.x,txtinfo.y);
   
 }
-
-//drawText(title, gradient, '50pt Algerian');
 
 
 function drawButton(btninfo, btncol, txtcol) {
@@ -66,14 +58,19 @@ function drawButton(btninfo, btncol, txtcol) {
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
+// Creates instances of two buttons and draws them on canvas
+var backButton = new Button("BACK",100, 700, 100, 50);
+var restartButton = new Button("RESTART", 800, 700, 100, 50);
+
 drawButton(backButton, "yellow", "blue");
 drawButton(restartButton, "yellow", "blue");
 
-// draw board
+// Sets context properties to draw game board
 ctx.lineCap='round';
 ctx.lineWidth = 10;
 ctx.strokeStyle = gradient
 
+// Draws game board
 for (var i = 0; i < 7; i++){
     ctx.beginPath();
     ctx.moveTo(100, 90*i+150);
@@ -89,6 +86,7 @@ for (var j = 0; j < 8; j++){
 }
 
 
+// Creates list of moves that player can make based on x, y location
 var moves =[];
   for(var i = 0; i < 7; i++){
     var move = {
@@ -101,8 +99,7 @@ var moves =[];
   
 }
 
-
-//adjust mouse click to canvas coordinates
+// Adjusts mouse location to canvas coordinates
 function getXY(canvas, event){ 
   const rect = canvas.getBoundingClientRect();
   const y = event.clientY - rect.top;
@@ -110,12 +107,13 @@ function getXY(canvas, event){
   return {x:x, y:y};
 }
 
-
+// Takes in a mouse position and a rectangle and determines if mouse location is contained within
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
 }
 
 
+// Function that draws an X on the canvas at location x, y
 function drawX(x, y){
     ctx.strokeStyle = gradient;
     ctx.beginPath();
@@ -127,6 +125,7 @@ function drawX(x, y){
     ctx.stroke();
 }
 
+// Function that draws an O on the canvas at location x, y
 function drawO(x, y){
   ctx.strokeStyle = 'red';
   ctx.beginPath();  
@@ -161,7 +160,6 @@ document.addEventListener('click', function(e) {
 // Passes data back to front end after human makes a move
 function human_move(move_num) {
   $.post("/human_move", {"move": move_num}, function(data) {
-    console.log(data);
     render_board(data);
     if (data["bot_move"] == 1) {
       bot_move();
@@ -173,13 +171,15 @@ function human_move(move_num) {
 function bot_move() {
   $("#waiting").show();
   $.post("/bot_move", {}, function(data) {
-    console.log(data);
     render_board(data);
     $("#waiting").hide();
   });
 }
 
-
+/* Renders current state of the game on the canvas based 
+   on information that was passed to it from application.py
+   in the form of a json
+*/
 ctx.font = "60px Verdana";
 function render_board(data) {
   //render board
@@ -196,7 +196,8 @@ function render_board(data) {
       }
     }
   }
-  // this will execute very, very rarely
+  
+  // this condition will be satifised very, very rarely; if at all
   if (data["winner"] == 0){
     // TODO use text objects here (and below)
     ctx.fillStyle = 'green';

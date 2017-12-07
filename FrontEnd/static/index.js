@@ -1,12 +1,10 @@
-//this might be how we need to do things
-//https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
 
-// set up HTML5 canvas
+// set up HTML5 canvas and context
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
 
-// Creates color gradient for style
+// Creates color gradient, for aesthetic use
 let gradient=ctx.createLinearGradient(0,0,canvas.width,0);
 gradient.addColorStop("0","magenta");
 gradient.addColorStop("0.5","blue");
@@ -34,7 +32,7 @@ function Button(text, x, y, width, height) {
     this.text = text;
 };
 
-// function to draw text on canvas given certain parameters
+// function to draw text on canvas, ar
 function drawText(txtinfo, txtcolor, txtsizefont) {
   ctx.strokeStyle=txtcolor;
   ctx.font = txtsizefont;
@@ -52,7 +50,7 @@ function drawButton(btninfo, btncol, txtcol) {
     ctx.fillText(btninfo.text, btninfo.x + 50, btninfo.y + 30);
 }
 
-// creates instances of text and buttons and draws on canvas
+// Creates instances of texts and buttons and draws on canvas
 var subtitle = new Text("Get ready to lose!", 500, 130);
 drawText(subtitle, 'white','30pt Courier');
 
@@ -75,7 +73,9 @@ function getXY(canvas, event){
   return {x:x, y:y};
 }
 
-// Determines if mouse is inside certain rectangular shape
+/* Function that takes in an x, y position and a rectangular shape
+   Determines if the pos is contained within the rectangle
+*/
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
 }

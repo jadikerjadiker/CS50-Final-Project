@@ -71,7 +71,6 @@ if __name__ == "__main__":
     from basic_monte_carlo_player import BasicMonteCarloPlayer
     from solve_player import SolvePlayer
     s = SolvePlayer()
-    # TODO something is wrong with this; it's not flipping the players results correctly
     # significant difference: 74 - 15, no ties.
     # test_against((BasicMonteCarloPlayer(30, 1), BasicMonteCarloPlayer(30)), ConnectFour, 100, 100, comment=4)
     # no significant difference: 29 - 28 - 2

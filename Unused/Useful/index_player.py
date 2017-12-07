@@ -1,3 +1,9 @@
+'''
+This code is not completely documented because it is not used in our project.
+I have included it as an example of a player you can create with the classes that are defined in our project.
+For some time, this was used as our tic-tac-toe player, but was abandoned when position evaluation was coded.
+'''
+
 from players import Player
 
 class IndexPlayer(Player):
@@ -16,6 +22,9 @@ class IndexPlayer(Player):
         self.predetermined.update(more)
         
 if __name__ == "__main__":
+    '''
+    This is an example of how to create and use an IndexPlayer
+    '''
     from performance_testers import test_against
     from monte_carlo_evaluation import unsure_monte_carlo_eval
     from evaluation import Evaluation, simple_eval
@@ -25,19 +34,10 @@ if __name__ == "__main__":
     from players import RandomPlayer, HumanPlayer
     from basic_monte_carlo_player import BasicMonteCarloPlayer
     def my_eval(game, player_number):
-        #unsure_monte_carlo_eval(game, player_number, unsure_rewards=[1, -1, .5], sure_rewards=[2, -2, 1.5], main_player=RandomPlayer(), simulation_amount=5, depth=0, opponent=RandomPlayer()):
-        
         return unsure_monte_carlo_eval(game, player_number, simulation_amount=3)
-        '''
-        winner = game.who_won()
-        if winner is None:
-            return Evaluation(0)
-        else:
-            return simple_eval(game, player_number, [2, -2, 1.5])
-        '''
         
     def my_index(game, player_number):
-        ans = complete_minimax(game, 4, my_eval)
+        ans = complete_minimax(game, 2, my_eval)
         print([(index, ans[index][0], ans[index][1].value) for index in ans])
         return ans
     

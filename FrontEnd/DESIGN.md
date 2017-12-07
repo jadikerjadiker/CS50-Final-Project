@@ -1,9 +1,13 @@
-Botter Than You
+Botter Than You by London Lowmanstone and William Yao
 
 Front End:
-Templates Folder:
-index.html
-static Folder:
+
+static folder:
+    logos folder:
+    
+
+templates folder:
+
 
 
 

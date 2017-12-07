@@ -35,7 +35,6 @@ def monte_carlo_eval(original_game, player_number, main_player=RandomPlayer(), r
     if depth==0:
         value = 0
         for _ in range(simulation_amount):
-            # TODO make it keep track of places it has already simulated and simulate places it's less certain about
             game = original_game.get_copy()
             players = [None, None]
             players[player_number] = main_player
