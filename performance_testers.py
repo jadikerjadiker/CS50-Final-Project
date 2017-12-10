@@ -86,10 +86,11 @@ if __name__ == "__main__":
     from tic_tac_toe import TicTacToe
     from connect_four import ConnectFour
     from players import RandomPlayer, HumanPlayer
+    from advised_monte_carlo_player import AdvisedMonteCarloPlayer
     from solve_player import SolvePlayer
-    s = SolvePlayer()
-    print("Solving tic-tac-toe...")
-    s.make_move(TicTacToe())
-    print("Tic-tac-toe solved!")
+    # s = SolvePlayer()
+    # print("Solving tic-tac-toe...")
+    # s.make_move(TicTacToe())
+    # print("Tic-tac-toe solved!")
     # Test how good the human player is against the perfect tic-tac-toe player
-    test_against((HumanPlayer(), s), TicTacToe, 10, 100, comment=5)
+    test_against((HumanPlayer(), AdvisedMonteCarloPlayer(3, 1, 1)), ConnectFour, 10, 100, comment=5)

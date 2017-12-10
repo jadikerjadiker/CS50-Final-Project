@@ -57,10 +57,9 @@ class HumanPlayer(Player):
                     index = int(input("Type the index of the move you'd like to do: "))
                     # get the move from the dictionary
                     move = moves_dict[index]
+                # make the move
+                game.make_move(move)
                 break
             except Exception:
                 # tell the user their input was invalid and re-run the loop
                 print("Sorry, that didn't work.")
-
-        # make the move
-        game.make_move(move)
