@@ -83,6 +83,9 @@ class Game():
         return ans
 
     def get_initial_state(self):
+        '''Return the initial state of the game.
+        The state can be anything (object, string, number, etc.).
+        '''
         raise NotImplementedError
 
     def get_state_hash(self):
@@ -96,6 +99,7 @@ class Game():
         {space number: player number, ..., "active_player": active player, "winner": winner}
         To see how this is implemented in more detail, see tic_tac_toe.py.
         '''
+        raise NotImplementedError
 
     def swap_players(self):
         '''Swap the players in a game; returns nothing'''
@@ -106,8 +110,9 @@ class Game():
         raise NotImplementedError
 
     def get_possible_moves(self):
-        '''Return a list of the possible actions that can be taken by the active player in the current state.
+        '''Return a list of the possible moves that can be taken by the active player in the current state.
         Behavior is undefined when the game is complete.
+        A single move can be anything (object, string, number, etc.).
         '''
         raise NotImplementedError
 

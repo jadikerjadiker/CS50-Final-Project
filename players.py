@@ -47,6 +47,8 @@ class HumanPlayer(Player):
                     print("Moves:\n{}".format([move + 1 for move in moves]))
                     # request a move
                     move = int(input("Type the move you'd like to do: ")) - 1
+                    if move not in moves:
+                        raise RuntimeError("Invalid move")
                 else:
                     # print out a dictionary of indexes/keys the user can type and the corresponding move
                     moves_dict = {}

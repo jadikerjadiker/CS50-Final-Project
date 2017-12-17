@@ -1,5 +1,5 @@
 '''
-This code is not completely documented because it is not used in our project.
+This code is not completely documented because it is not used in our website project.
 I have included it as an example of a player you can create with the classes that are defined in our project.
 For some time, this was used as our tic-tac-toe player, but was abandoned when position evaluation was coded.
 '''
