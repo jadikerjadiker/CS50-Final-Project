@@ -1,4 +1,4 @@
-*Welcome to the Botter Than You DOCS by London Lowmanstone and William Yao*
+*Welcome to the Botter Than You design documentation by London Lowmanstone and William Yao*
 
 INTRODUCTION
 ============
@@ -77,7 +77,7 @@ Our main reasons for using the canvas element are
 
 HTML5 Canvas does not come without downsides though:
 
-* It's Very hard to deal with resizing screens
+* It's very hard to deal with resizing screens
 * All interactions need to be coded (including basic button functionality)
 * Updating/refreshing the screen can be complicated
     * We managed to avoid this for the most part by reloading the page when a game is restarted
@@ -192,8 +192,10 @@ BACK END
 * solve_player.py
     * A player that solves the entire game and then makes moves based on the solved game
     * This is the heart of our tic-tac-toe player
+* sizeable\_connect\_x.py
+    * Game class for any "connect x" game with a resizeable board
 * connect_four.py
-    * Game class for connect4
+    * Game class for connect4 (with the usual 6 x 7 board)
 * tic\_tac\_toe.py
     * Game class for tic-tac-toe
 * useful_functions.py
