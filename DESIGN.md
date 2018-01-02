@@ -38,7 +38,7 @@ This project is now completely separate from the original, with a new `Game` cla
 To understand this project, first take a look at the `Game` class in `game.py` which defines what a two-player game is.
 Remember, any class that implements those methods can be played by the bots. (I'm planning on adding Nine Men's Morris later on this year.)
 
-Then, take a look at how the `TicTacToe` and `ConnectFour` classes are actually implemented.
+Then, take a look at how the `TicTacToe` and `SizeableConnectX` classes are actually implemented.
 This will help you to understand how to implement a game.
 
 After that, start looking at the `position_eval` function (in `position_evaluation.py`) or the `monte_carlo_eval` function (in `monte_carlo_evaluation.py`).
