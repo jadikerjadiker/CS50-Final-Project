@@ -44,7 +44,7 @@ This will help you to understand how to implement a game.
 After that, start looking at the `position_eval` function (in `position_evaluation.py`) or the `monte_carlo_eval` function (in `monte_carlo_evaluation.py`).
 This will help you to understand how games are evaluated and comprehend the basic recursion methods used.
 
-Next, look at different players such as the `BasicMonteCarloPlayer` (in the `Unused` folder) or the `AdvisedMonteCarloPlayer` (in `advised_monte_carlo_player.py`).
+Next, look at different players such as the `BasicMonteCarloPlayer` (in `basic_monte_carlo_player.py`) or the `AdvisedMonteCarloPlayer` (in `advised_monte_carlo_player.py`).
 This will show you how we built players that make moves based on the evaluation functions.
 
 Also, note that our players have no knowledge of how connect4 or tic-tac-toe are actually played; they merely respond to certain actions leading to certain end states.
@@ -201,5 +201,13 @@ BACK END
 * useful_functions.py
     * Merely contains a function that's useful for printing out the percentage complete a loop is
     * Used in the `test_against` function (define in the `players` module)
+* basic\_monte\_carlo\_player.py
+    * A basic player that only uses monte carlo evaluation to make moves
+    * Not used in the final app
+* index_player.py
+    * A basic class for any player whose moves can be made out of a dictionary
+    * Similar to the SolvePlayer class
+    * Not used in the final app
+    
 
 *This was Botter Than You! Thanks for reading.*
