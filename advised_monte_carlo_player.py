@@ -1,6 +1,6 @@
 from position_eval import position_eval
 from monte_carlo_evaluation import monte_carlo_eval
-from players import Player
+from players import Player, RandomPlayer
 
 
 class AdvisedMonteCarloPlayer(Player):
@@ -8,7 +8,7 @@ class AdvisedMonteCarloPlayer(Player):
     A basic monte carlo player that takes certain wins and ties and avoids certain
     '''
 
-    def __init__(self, mc_simulation_amount, mc_depth, pe_depth, mc_rewards=(1, -1, .5), pe_rewards=(2, -2, .9, 0, 0)):
+    def __init__(self, mc_simulation_amount, mc_depth, pe_depth, mc_rewards=(1, -1, .5), pe_rewards=(2, -2, .9, 0, 0), main_player=RandomPlayer(), opponent=RandomPlayer()):
         '''
         mc is short for "MonteCarlo"
         mc_simulation_amount: how many times the monte carlo evaluator should simulate each end position
@@ -16,12 +16,16 @@ class AdvisedMonteCarloPlayer(Player):
         pe_depth: how many moves the position evaluator should look ahead (should be at least 1)
         mc_rewards: the monte carlo evaluation rewards for (win, loss, tie)
         pe_rewards: the position evaluator rewards for (win, loss, tie, undetermined)
+        main_player: the player who is making the moves in the AdvisedMonteCarloPlayer's position when simulating games
+        opponent: the player who is playing against the main_player when simulating games
         '''
         self.mc_simulation_amount = mc_simulation_amount
         self.mc_depth = mc_depth
         self.mc_rewards = mc_rewards
         self.pe_depth = pe_depth
         self.pe_rewards = pe_rewards
+        self.sim_main_player = main_player
+        self.sim_opponent = opponent
 
         # the position evaluation function
         self.pe_func = lambda game, player_number: position_eval(game, player_number,
@@ -30,7 +34,8 @@ class AdvisedMonteCarloPlayer(Player):
         # the monte carlo evaluation function
 
         self.mc_func = lambda game, player_number: monte_carlo_eval(game, player_number, rewards=self.mc_rewards,
-                                                                    simulation_amount=self.mc_simulation_amount, depth=self.mc_depth)
+                                                                    simulation_amount=self.mc_simulation_amount, depth=self.mc_depth,
+                                                                    main_player=self.sim_main_player, opponent=self.sim_opponent)
 
     def make_move(self, game):
         main_player = game.active_player

@@ -1,4 +1,4 @@
-*Hi CS50 staff! Welcome to Botter Than You!*
+*Welcome to Botter Than You!*
 
 Botter Than You is a nearly unbeatable computer bot that plays two player games developed by London Lowmanstone and William Yao using HTML5 canvas, python and Flask.
 

@@ -19,7 +19,7 @@ FUNCTIONALITY
 =============
 
 * Front End: 
-    * Uses 5 HTML templates, 3 Javascript files and 2 css stylesheets. The HTML templates use the CSS stylesheets and renders the canvas on the page.
+    * Uses 5 HTML templates, 3 Javascript files and 2 CSS stylesheets. The HTML templates use the CSS stylesheets and renders the canvas on the page.
 * Backend: 
     * Minimax algorithm is used to solve tic-tac-toe upon launch of the application
     * Monte Carlo algorithm and position evaluation function are used to inform the connect4 player
