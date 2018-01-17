@@ -7,7 +7,7 @@ class Player:
         raise NotImplementedError
 
     def __str__(self):
-        "<Player object>"
+        return "<Player object>"
 
 
 class RandomPlayer(Player):
