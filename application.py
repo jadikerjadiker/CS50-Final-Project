@@ -49,9 +49,6 @@ def tictactoe():
     game.active_player = random.choice([0, 1])
     # use the bot that has memorized all the best moves
     bot = tic_tac_toe_bot
-    # TODO delete
-    print("This is the bot that disappears on Heroku:")
-    print(bot)
     return render_template("tictactoe.html", player=game.active_player)
 
 
@@ -74,8 +71,6 @@ def make_human_move():
     # bot_move is 1 if the javascript should request a bot move
     # bot_move is 0 if the javascript should not request a bot move
     bot_move = 0
-    print("human move, moving is:")
-    print(moving)
     # make sure a move is not currently going on
     if not moving:
         moving = True
@@ -105,9 +100,6 @@ def make_human_move():
 def make_bot_move():
     global moving
     moving = True
-    print("I'm making a bot move!")
-    print("Here is the bot when it disappears:")
-    print(bot)
     bot.make_move(game)
     time.sleep(1)
     moving = False
@@ -125,6 +117,6 @@ def instructionspage():
 
 
 if __name__ == "__main__":
-    # app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 8080)))  # used to run on Cloud9
-    # running on Heroku does not work yet because it looks like the bot global doesn't stay the same when hosted
-    app.run(threaded=True)  # used to run on heroku
+    app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 8080)))  # used to run on Cloud9
+    # running on Heroku does not work yet because it looks like the global bot doesn't stay the same when hosted
+    #app.run(threaded=True)  # used to run on heroku
