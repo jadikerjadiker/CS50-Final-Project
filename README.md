@@ -1,8 +1,10 @@
 *Welcome to Botter Than You!*
 
-Botter Than You is a nearly unbeatable computer bot that plays two player games developed by London Lowmanstone and William Yao using HTML5 canvas, python and Flask.
+Botter Than You is a nearly unbeatable computer bot that plays two player games developed by London Lowmanstone and William Yao using HTML5 canvas, Python, and Flask.
 
 In this iteration of Botter Than You (Dec 2017), Tic Tac Toe and Connect4 are available for users to play.
+
+See the file `DESIGN.md` for more information about the programming behind this application.
 
 REQUIREMENTS
 ============
