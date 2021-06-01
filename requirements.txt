@@ -25,5 +25,5 @@ six==1.11.0
 style50==2.4.0
 termcolor==1.1.0
 treedict==0.2.2
-urllib3==1.7.1
+urllib3==1.26.5
 wheel==0.24.0
