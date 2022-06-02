@@ -12,7 +12,7 @@ click==6.7
 colorama==0.2.5
 decorator==4.1.2
 gunicorn==19.7.1
-html5lib==0.999
+html5lib==0.99999999
 icdiff==1.9.1
 itsdangerous==0.24
 jsbeautifier==1.6.14
