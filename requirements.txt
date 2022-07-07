@@ -20,7 +20,7 @@ networkx==2.0
 pycodestyle==2.3.1
 pycurl==7.19.3
 python-magic==0.4.15
-requests==2.2.1
+requests==2.20.0
 six==1.11.0
 style50==2.4.0
 termcolor==1.1.0
