@@ -26,4 +26,4 @@ style50==2.4.0
 termcolor==1.1.0
 treedict==0.2.2
 urllib3==1.7.1
-wheel==0.24.0
+wheel==0.38.1
